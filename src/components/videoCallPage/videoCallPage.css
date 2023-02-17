@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.video-call-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.video-call-box {
+    padding: 0;
+    margin: 0;
+    margin-bottom: -4em;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-call-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #1d4593;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.video-call-container {
+    margin-top: 5em;
+    margin-bottom: 5em;
+    width: 60%;
+    height: 30em;
+    background-color: aqua;
+    display: flex;
+}
+
+.video-call-video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-output {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+}
+
+.video-input-container {
+    margin-left: 3em;
+    margin-top: 2em;
+    margin-bottom: 20em;
+    height: 10em;
+    display: flex;
+}
+
+.video-input {
+    background-color: bisque;
+    height: 10em;
+    display: flex;
+}
+
+.bottom-bar {
+    background-color: rgb(89, 84, 93);
+    width: 100%;
+    height: 7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+@media screen and (max-width: 768px) {
+    .video-call-box {
+        flex-direction:row;
+        flex-wrap: wrap;
+    }
+
+    .video-call-container{
+        width: 50%;
+        margin-right: -15em;
+        margin-left: 1em;
+    }
+
+    .video-input-container {
+        display: flex;
+        padding-left: auto;
+        margin-left: 18em;
+    }
+
+    .video-input {
+        width: 80%;
+    }
+
+    .video-output {
+        width: 100%;
+    }
+}
