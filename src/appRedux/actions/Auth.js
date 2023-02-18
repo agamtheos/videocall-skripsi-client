@@ -1,9 +1,9 @@
-import Api, {getCollection} from '../../util/Api';
+import Api, {getCollection} from "@util/Api";
 import {
     AUTH_TOKEN,
     AUTH_IS_VALID,
     AUTH_ROLE,
-} from '../../constants/ActionTypes';
+} from "@constants/ActionTypes";
 
 export const userPurgeAuth = () => {
     return (dispatch) => {
@@ -17,11 +17,11 @@ export const userSignIn = (username, password) => {
     return (dispatch) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const {data: {data: {token, role}}} = Api.post(getCollection('AUTH_LOGIN'), {username, password});
-                await dispatch({type: AUTH_TOKEN, payload: token});
-				await dispatch({type: AUTH_ROLE, payload: role});
+                const data = await Api.post(getCollection('AUTH_LOGIN'), {username, password});
+                await dispatch({type: AUTH_TOKEN, payload: data.data.data.token});
+				await dispatch({type: AUTH_ROLE, payload: data.data.data.role});
                 await dispatch({type: AUTH_IS_VALID, payload: true});
-                resolve(token);
+                resolve(data.data.data.token);
             } catch (error) {
                 reject(error);
             }
