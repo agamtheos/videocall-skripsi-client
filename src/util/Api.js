@@ -1,7 +1,8 @@
 import Mustache from 'mustache';
 import axios from "axios";
+import { getConfig } from '../Config';
 
-const BASE_API = 'https://localhost:3030/api/'
+const BASE_API = getConfig('BASE_API')
 
 const collections = {
     AUTH_LOGIN: 'auth/login',
