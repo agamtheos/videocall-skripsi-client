@@ -158,15 +158,17 @@
 .login-form-forgot {
     margin-top: 1em;
     margin-bottom: 1em;
+    margin-left: 20em;
+    position: relative;
     font-size: 0.8em;
-    align-items: center;
     color: #2966b6;
 }
 
 .login-form-register {
     margin-top: 1em;
+    margin-bottom: 1em;
     font-size: 0.8em;
-    align-items: center;
+    align-items: left;
     color: #2966b6;
 }
 

@@ -1,10 +1,10 @@
 import React, {memo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Link, useHistory} from "react-router-dom";
-import {userRegister} from '../../appRedux/actions/Auth';
-import {getErrorMessage} from '../../util/helpers'
-import {Button, Form, Input, Alert, Divider} from "antd";
-import '../../styles/Register.css'
+import {userRegister} from "@actions/Auth"
+import {getErrorMessage} from "@util/helpers"
+import {Button, Form, Input, Alert, Divider, notification} from "antd";
+import '../../styles/custom/Register.css'
 
 export default memo(() => {
     const dispatch = useDispatch();
@@ -21,7 +21,11 @@ export default memo(() => {
         try {
             setSubmitting(true);
             await dispatch(userRegister(username, password));
-            history.push('/');
+            notification.success({
+                message: 'Akun berhasil dibuat!',
+                description: 'Silahkan login untuk melanjutkan'
+            })
+            history.push('/auth/login');
         } catch (error) {
             setErrorMessage(getErrorMessage(error));
         } finally {

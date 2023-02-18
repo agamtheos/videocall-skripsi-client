@@ -1,10 +1,10 @@
 import React, {memo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Link, useHistory} from "react-router-dom";
-import {userSignIn} from '../../appRedux/actions/Auth';
-import {getErrorMessage} from '../../util/helpers'
+import {userSignIn} from '@actions/Auth'
+import {getErrorMessage} from "@util/helpers"
 import {Button, Form, Input, Alert, Divider} from "antd";
-import '../../styles/Login.css'
+import '../../styles/custom/Login.css'
 
 export default memo(() => {
     const dispatch = useDispatch();
@@ -16,13 +16,14 @@ export default memo(() => {
     const handlePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
+    
     const onFinish = async ({username, password}) => {
         try {
             setSubmitting(true);
             await dispatch(userSignIn(username, password));
             history.push('/');
         } catch (error) {
+            console.log(error)
             setErrorMessage(getErrorMessage(error));
         } finally {
             setSubmitting(false);
@@ -103,16 +104,16 @@ export default memo(() => {
                         Log in
                         </Button>
                         <Link
+                        className="login-form-register"
+                        to="/auth/admin/register">
+                            Daftar!
+                        </Link>
+                        <Link
                         className="login-form-forgot"
                         to="/auth/forgot-password">
                             Lupa kata sandi ?
                         </Link>
                     </Form.Item>
-                    <Link
-                    className="login-form-register"
-                    to="/auth/admin/register">
-                        Daftar!
-                    </Link>
                 </Form>
             </div>
         </div>

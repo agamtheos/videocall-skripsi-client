@@ -2,9 +2,9 @@ import React, {memo, useState, useEffect, Suspense, lazy} from "react";
 // import {useSelector} from "react-redux";
 import {Route, Switch, Redirect, useLocation} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {updateWindowWidth} from '../appRedux/actions/index';
-import Fallback from '../components/Fallback';
-import {userVerifyToken} from '../appRedux/actions/Auth'
+import {updateWindowWidth} from '@actions'
+import Fallback from "@components/Fallback";
+import {userVerifyToken} from "@actions/Auth"
 
 // const RestrictedRoute = ({component: Component, location: isValid, ...rest}) => 
 //     <Route {...rest}
