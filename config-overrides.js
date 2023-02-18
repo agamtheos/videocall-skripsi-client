@@ -9,6 +9,9 @@ const overrideProcessEnv = value => config => {
 };
 
 module.exports = override(
+    addLessLoader({
+        javascriptEnabled: true,
+    }),
     overrideProcessEnv({
         VERSION: JSON.stringify(require('./package.json').version),
     }),
@@ -24,8 +27,5 @@ module.exports = override(
         ['@routes']: path.resolve(__dirname, 'src/routes'),
         ['@config']: path.resolve(__dirname, 'src/config'),
         ['@util']: path.resolve(__dirname, 'src/util'),
-    }),
-    addLessLoader({
-        javascriptEnabled: true,
-    }),
+    })
 );
