@@ -5,8 +5,9 @@ import {
     AUTH_IS_VALID,
     AUTH_ROLE,
 } from '../../constants/ActionTypes';
+import { getConfig } from '../../Config';
 
-const COOKIE_TOKEN_KEY = 'cl5ZllNG9PPzJjgSGEgp';
+const COOKIE_TOKEN_KEY = getConfig('COOKIE_TOKEN_KEY');
 
 const INIT_STATE = {
     loading: false,

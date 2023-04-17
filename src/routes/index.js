@@ -1,6 +1,6 @@
 import React, {memo, useState, useEffect, Suspense, lazy} from "react";
 // import {useSelector} from "react-redux";
-import {Route, Switch, Redirect, useLocation} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {updateWindowWidth} from '@actions'
 import Fallback from "@components/Fallback";
@@ -37,13 +37,13 @@ export default memo(({match}) => {
     }, [dispatch]);
 
     // const {isValid} = useSelector(state => state.auth);
-
     if (!verifyFetched) return <Fallback/>;
 
     return(
         <Suspense fallback={<Fallback/>}>
             <Switch>
                 <Route path={`${match.url}auth`} component={lazy(() => import('./Auth'))}/>
+                <Route path={`${match.url}`} component={lazy(() => import('./Main'))}/>
             </Switch>
         </Suspense>
     )

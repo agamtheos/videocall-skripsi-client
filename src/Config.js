@@ -1,5 +1,6 @@
 const config = {
-	BASE_API: 'REACT_APP_BASE_API'
+	BASE_API: 'REACT_APP_BASE_API',
+	COOKIE_TOKEN_KEY: 'COOKIE_TOKEN_KEY'
 };
 
 export const getConfig = (key) =>

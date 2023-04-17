@@ -1,0 +1,71 @@
+/* Call Container */
+
+.call-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 50%;
+}
+
+.column {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2%;
+}
+
+.left {
+    color: #1b1919;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+.remote-video-container {
+    width: 100%;
+    height: 100%;
+}
+
+.remote-video {
+    width: 100%;
+    height: 100%;
+    border: #1b1919;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2%;
+}
+
+.local-video {
+    width: 25%;
+    height: 100%;
+    float: right;
+    border: #ae2f2f;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2%;
+}
+
+/* Call Control Container */
+
+.call-control {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-auto-rows: minmax(200px, auto); */
+    height: 5%;
+}
+
+.left {
+    color: #1b1919;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+/* Call Control Left */
+
+.input-register {
+    
+}
