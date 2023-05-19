@@ -1,8 +1,8 @@
 import React, {memo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Link, useHistory} from "react-router-dom";
-import {userSignIn} from '@actions/Auth'
-import {getErrorMessage} from "@util/helpers"
+import {userSignIn} from '../../appRedux/actions/Auth'
+import {getErrorMessage} from "../../util/helpers"
 import {Button, Form, Input, Alert, Divider} from "antd";
 import '../../styles/custom/Login.css'
 

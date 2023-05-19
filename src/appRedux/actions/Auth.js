@@ -1,9 +1,9 @@
-import Api, {getCollection} from "@util/Api";
+import Api, {getCollection} from "../../util/Api";
 import {
     AUTH_TOKEN,
     AUTH_IS_VALID,
     AUTH_ROLE,
-} from "@constants/ActionTypes";
+} from "../../constants/ActionTypes";
 
 export const userPurgeAuth = () => {
     return (dispatch) => {

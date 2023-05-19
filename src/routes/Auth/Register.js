@@ -1,8 +1,8 @@
 import React, {memo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Link, useHistory} from "react-router-dom";
-import {userRegister} from "@actions/Auth"
-import {getErrorMessage} from "@util/helpers"
+import {userRegister} from "../../appRedux/actions/Auth"
+import {getErrorMessage} from "../../util/helpers"
 import {Button, Form, Input, Alert, Divider, notification} from "antd";
 import '../../styles/custom/Register.css'
 

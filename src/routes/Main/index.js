@@ -1,6 +1,6 @@
 import React, {memo, Suspense, lazy} from "react";
 import {Route, Switch} from "react-router-dom";
-import Fallback from "@components/Fallback";
+import Fallback from "../../components/Fallback";
 
 export default memo(({match}) => {
     return (

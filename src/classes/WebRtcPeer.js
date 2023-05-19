@@ -1,4 +1,4 @@
-let peers = null
+let peers;
 
 module.exports = function WebRtcPeer() {
     // this.addPeer = (id, peer) => {
