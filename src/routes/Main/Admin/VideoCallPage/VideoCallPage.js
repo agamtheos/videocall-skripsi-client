@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Button, Space, Tooltip, Modal } from "antd";
+import { Row, Col, Button, Space, Tooltip } from "antd";
 
 import useToggleState from "../../../../hooks/useToggleState";
 
