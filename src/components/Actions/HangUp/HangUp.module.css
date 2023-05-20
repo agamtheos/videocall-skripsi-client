@@ -1,0 +1,13 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-color: #ff4d4f !important;
+    background: #ff4d4f !important;
+    margin: 0;
+}
+.button:hover,
+.button:focus {
+    border-color: #ff7875 !important;
+    background: #ff7875 !important;
+}
