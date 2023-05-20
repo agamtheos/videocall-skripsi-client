@@ -1,7 +1,7 @@
-import React, {Fragment, useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 
-// import { register, 
-//     registerResponse, 
+// import { register,
+//     registerResponse,
 //     callResponse,
 //     incomingCall,
 //     startCommunication,
@@ -9,9 +9,9 @@ import React, {Fragment, useEffect} from "react";
 // } from "../../../../classes/Connection";
 // import { webSocketController } from "../../../../classes/WebSocket";
 import VideoCall from "./VideoCall";
-import "../../../../styles/custom/VideoCall.css"
+import "../../../../styles/custom/VideoCall.css";
 
-const WebRtcPeerClass = require('../../../../classes/WebRtcPeer');
+const WebRtcPeerClass = require("../../../../classes/WebRtcPeer");
 
 // const Connection = require('../../../../classes/Connection');
 const WebRtcPeer = new WebRtcPeerClass();
@@ -47,27 +47,27 @@ const CallPage = () => {
     // }
 
     const findRemoteUserStream = () => {
-        const webRtcPeer = WebRtcPeer.getPeers()
+        const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
-            return console.log('No remote stream for user ')
+            return console.log("No remote stream for user ");
         }
         return webRtcPeer.getRemoteStream();
-    }
+    };
 
     const findLocalUserStream = () => {
         const wb = WebRtcPeer.getPeers();
-        console.log('HAHAHAHHAHAHAHAHAHAHAHAHAHA')
-        console.log(wb)
-        console.log('HAHAHAHHAHAHAHAHAHAHAHAHAHA')
-        const webRtcPeer = WebRtcPeer.getPeers()
+        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
+        console.log(wb);
+        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
+        const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
-            return console.log('No local stream for user ')
+            return console.log("No local stream for user ");
         }
         const c = webRtcPeer.getLocalStream();
-        console.log('HUEHUE')
-        console.log(c)
+        console.log("HUEHUE");
+        console.log(c);
         return c;
-    }
+    };
 
     // async function openUserMedia(e) {
     //     const stream = await navigator.mediaDevices.getUserMedia({
@@ -93,7 +93,7 @@ const CallPage = () => {
     //     ws.onmessage = async function(message) {
     //         var parsedMessage = JSON.parse(message.data);
     //         console.info('Received message: ' + message.data);
-        
+
     //         switch (parsedMessage.id) {
     //         case 'registerResponse':
     //             await registerResponse(parsedMessage);
@@ -133,7 +133,6 @@ const CallPage = () => {
         // async function init() {
         //     await connWS();
         // }
-
         // init();
         // getMedia();
         // const ws = webSocketController.connect('wss://localhost:3030/one2one');
@@ -141,7 +140,6 @@ const CallPage = () => {
         // ws.onmessage = function(message) {
         //     var parsedMessage = JSON.parse(message.data);
         //     console.info('Received message: ' + message.data);
-        
         //     switch (parsedMessage.id) {
         //     case 'registerResponse':
         //         registerResponse(parsedMessage);
@@ -174,13 +172,14 @@ const CallPage = () => {
 
     return (
         <Fragment>
-			<div className="call-container">
-				<VideoCall 
+            <div className="call-container">
+                <VideoCall
                     localStream={findLocalUserStream()}
                     remoteStream={findRemoteUserStream()}
                 />
-			</div>
-			{/* <div className="call-control">
+            </div>
+            testststs
+            {/* <div className="call-control">
 				<div className="call-control-left">
 					<input id="name" name="name" className="input-register" onInput={e => setRegisterName(e.target.value)} type="text"/>
 					<button id="register" onClick={onClickRegister} className="button-register">Register</button>
@@ -193,8 +192,8 @@ const CallPage = () => {
 				<input id="peer" name="peer" className="input-peer" onInput={e => setPeerName(e.target.value)} type="text"/>
 				</div>
 			</div> */}
-		</Fragment>
-    )
-}
+        </Fragment>
+    );
+};
 
 export default CallPage;
