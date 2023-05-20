@@ -1,0 +1,50 @@
+.layout {
+    min-height: 100vh;
+    background-color: #0b0d0f;
+}
+
+.header {
+    background-color: #0b0d0f;
+}
+.header a {
+    display: inline-flex;
+    align-items: center;
+    color: #ffffff;
+    background-color: transparent;
+    margin-right: 0.375rem;
+}
+.header a span {
+    display: inline-block;
+    margin-left: 0.625rem;
+}
+
+.content {
+    padding: 1rem 2rem 2rem;
+}
+
+.divider {
+    height: 2rem;
+    border-left: 1px solid #ffffff1f;
+}
+
+.rightSection button {
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1rem;
+    border-radius: 0.625rem;
+    color: #ffffff !important;
+    border-color: #2c323e !important;
+}
+.rightSection button:hover {
+    background-color: rgb(59, 68, 84, 0.35) !important;
+}
+.rightSection button span {
+    margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 575.98px) {
+    .content {
+        padding: 1rem;
+    }
+}
