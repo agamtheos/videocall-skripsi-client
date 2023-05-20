@@ -1,0 +1,124 @@
+/* Header Component */
+.ant-layout-header .ant-btn-link {
+    border-color: transparent !important;
+}
+
+/* Navigation Component */
+.ant-dropdown-menu {
+    background-color: #13161b;
+}
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+    padding: 0.5rem 1rem;
+    color: #f5f9fff2;
+    font-size: 0.875rem;
+}
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-item:focus,
+.ant-dropdown-menu-submenu-title:hover,
+.ant-dropdown-menu-submenu-title:focus {
+    background-color: #191d24 !important;
+}
+.ant-dropdown-menu-item {
+    border-bottom: 1px solid #1b1f26;
+}
+.ant-dropdown-menu-item:last-child {
+    border-bottom: none;
+}
+.ant-dropdown-menu-title-content > a {
+    display: flex;
+    align-items: center;
+}
+.ant-dropdown-menu-title-content > a > div {
+    margin-right: 0.375rem;
+}
+
+/* Modal Components */
+.ant-modal-content {
+    background-color: #201617;
+}
+.ant-modal-confirm .ant-modal-body {
+    padding: 1.5rem;
+}
+.ant-modal-confirm-body
+    > .anticon
+    + .ant-modal-confirm-title
+    + .ant-modal-confirm-content {
+    margin-left: 0;
+}
+.ant-modal-confirm-warning .ant-modal-confirm-body > .anticon,
+.ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
+    color: #cc525f;
+}
+.ant-modal-confirm-body > div:nth-of-type(1) {
+    float: left;
+    margin-right: 0.625rem;
+    font-size: 1.125rem;
+    color: #cc525f;
+}
+.ant-modal-confirm-body .ant-modal-confirm-title {
+    display: block;
+    overflow: hidden;
+    color: #cc525f;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+}
+.ant-modal-confirm-body .ant-modal-confirm-content {
+    margin-top: 8px;
+    color: #545454;
+    font-size: 0.875rem;
+    line-height: 20px;
+    color: #ffffffb8;
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns {
+    display: flex;
+    gap: 1.125rem;
+    margin-top: 2rem;
+}
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
+    width: 100%;
+    margin: 0 !important;
+}
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default {
+    background-color: transparent !important;
+    border-color: #ffffff !important;
+    color: #ffffff;
+}
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default:hover,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default:focus {
+    background-color: #ffffff1a !important;
+}
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-primary {
+    background-color: #ff4d4f !important;
+    border-color: #ff4d4f !important;
+    color: #ffffff;
+}
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-primary:hover,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-primary:focus {
+    border-color: #ff7875 !important;
+    background: #ff7875 !important;
+}
+
+.ant-xs-only,
+.ant-lg-only {
+    display: none !important;
+}
+
+@media screen and (min-width: 768px) {
+    .ant-lg-only {
+        display: flex !important;
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .ant-layout-header {
+        height: 60px;
+    }
+
+    .ant-xs-only {
+        display: flex !important;
+    }
+}
