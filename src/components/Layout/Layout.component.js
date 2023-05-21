@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Layout as BaseLayout, Space, Divider } from "antd";
+import clsx from "classnames";
 
 import { HangUp } from "../Actions/HangUp";
 import Icon from "../Icon";
@@ -16,7 +17,7 @@ const Layout = ({ children, isVideoCall, rightSection }) => {
                 className={styled.header}
                 style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}
             >
-                <Space className="ant-lg-only">
+                <Space className={clsx({ "ant-lg-only": isVideoCall })}>
                     <Link to="/">
                         <img
                             src="/assets/img/company-logo.svg"
@@ -24,7 +25,7 @@ const Layout = ({ children, isVideoCall, rightSection }) => {
                         />
                     </Link>
                     {isVideoCall ? (
-                        <>
+                        <div className="ant-lg-only">
                             <Divider
                                 type="vertical"
                                 className={styled.divider}
@@ -36,16 +37,22 @@ const Layout = ({ children, isVideoCall, rightSection }) => {
                                 />{" "}
                                 <span>Karen A, Tayler H (You)</span>
                             </Link>
-                        </>
+                        </div>
                     ) : (
                         ""
                     )}
                 </Space>
-                <Space className="ant-xs-only">
-                    <HangUp
-                        icon={<Icon name="sign-out" width={24} height={24} />}
-                    />
-                </Space>
+                {isVideoCall ? (
+                    <Space className="ant-xs-only">
+                        <HangUp
+                            icon={
+                                <Icon name="sign-out" width={24} height={24} />
+                            }
+                        />
+                    </Space>
+                ) : (
+                    ""
+                )}
                 {rightSection ? (
                     <div className={styled.rightSection}>{rightSection}</div>
                 ) : (
