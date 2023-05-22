@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 
 import Icon from "../Icon";
 
 import styled from "./VideoItem.module.css";
 
-const VideoItem = ({ image, name, isMuted, isOnCam }) => {
+const VideoItem = ({ stream, image, name, isMuted, isOnCam }) => {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (stream) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.srcObject.getAudioTracks()[0].enabled = true;
+        }
+	}, [stream]);
+
     return (
         <div className={styled.videoItem}>
             {isOnCam ? (
-                <img src={image} alt={name} />
+                // <img src={image} alt={name} />
+                <video ref={videoRef} autoPlay muted></video>
             ) : (
                 <div
                     className={styled.avatar}

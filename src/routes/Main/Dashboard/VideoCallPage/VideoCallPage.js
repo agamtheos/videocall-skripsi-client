@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Space, Tooltip } from "antd";
 
@@ -11,9 +11,35 @@ import Icon from "../../../../components/Icon";
 
 import styled from "./VideoCallPage.module.css";
 
+const WebRtcPeerClass = require("../../../../classes/WebRtcPeer");
+const WebRtcPeer = new WebRtcPeerClass();
+
 const VideoCallPage = () => {
     const [muted, toggleMuted] = useToggleState(true);
     const [onCam, toggleOnCam] = useToggleState(true);
+
+    const findRemoteUserStream = () => {
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No remote stream for user ");
+        }
+        return webRtcPeer.getRemoteStream();
+    };
+
+    const findLocalUserStream = () => {
+        const wb = WebRtcPeer.getPeers();
+        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
+        console.log(wb);
+        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No local stream for user ");
+        }
+        const c = webRtcPeer.getLocalStream();
+        console.log("HUEHUE");
+        console.log(c);
+        return c;
+    };
 
     return (
         <Layout
@@ -37,6 +63,7 @@ const VideoCallPage = () => {
             >
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                     <VideoItem
+                        stream={findRemoteUserStream()}
                         image="/assets/img/woman.jpg"
                         name="Karen A"
                         isMuted={false}
@@ -45,6 +72,7 @@ const VideoCallPage = () => {
                 </Col>
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                     <VideoItem
+                        stream={findLocalUserStream()}
                         image="/assets/img/man.jpg"
                         name="Tyler H"
                         isMuted={muted}

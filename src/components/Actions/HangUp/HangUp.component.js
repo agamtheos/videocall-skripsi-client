@@ -6,6 +6,8 @@ import Icon from "../../Icon";
 
 import styled from "./HangUp.module.css";
 
+const Connection = require('../../../classes/Connection');
+
 const HangUp = ({ icon }) => {
     const history = useHistory();
 
@@ -23,6 +25,9 @@ const HangUp = ({ icon }) => {
                 history.push("/dashboard/test1/room");
             },
         });
+        Connection.stop();
+        localStorage.removeItem('caller');
+        localStorage.removeItem('callee');
     };
 
     return (

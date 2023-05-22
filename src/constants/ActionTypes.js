@@ -39,6 +39,13 @@ export const AUTH_IS_VALID = 'AUTH_IS_VALID';
 export const AUTH_ROLE = 'AUTH_ROLE';
 export const AUTH_PROFILE = 'AUTH_PROFILE';
 export const AUTH_ACCESS_FEATURE = 'AUTH_ACCESS_FEATURE';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+
+// CLIENTS
+export const CLIENT_ONLINE = 'CLIENT_ONLINE';
+
+// ADMIN
+export const ADMIN_ONLINE = 'ADMIN_ONLINE';
 
 // Users
 export const USERS_LOADING = 'USERS_LOADING';

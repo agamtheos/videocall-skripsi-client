@@ -37,6 +37,8 @@ export default memo(() => {
         setPeerName(peer);
         setLoading(true);
         Connection.call(registerName, peer);
+        localStorage.setItem('caller', registerName);
+        localStorage.setItem('callee', peer);
     }
 
     const onClickTerminate = () => {

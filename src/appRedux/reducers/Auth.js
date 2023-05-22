@@ -4,16 +4,18 @@ import {
 	AUTH_TOKEN,
     AUTH_IS_VALID,
     AUTH_ROLE,
+    AUTH_PROFILE,
 } from '../../constants/ActionTypes';
 import { getConfig } from '../../Config';
 
-const COOKIE_TOKEN_KEY = getConfig('COOKIE_TOKEN_KEY');
+const COOKIE_TOKEN_KEY = 'cl5ZIING9PPzJjgSGEgp';
 
 const INIT_STATE = {
     loading: false,
     token: cookies.get(COOKIE_TOKEN_KEY) || null,
     isValid: !!cookies.get(COOKIE_TOKEN_KEY),
     role: null,
+    profile: null,
 };
 
 const Store = (state = INIT_STATE, action) => {
@@ -37,6 +39,10 @@ const Store = (state = INIT_STATE, action) => {
 
         case AUTH_ROLE: {
             return {...state, role: action.payload ?? null};
+        }
+
+        case AUTH_PROFILE: {
+            return {...state, profile: action.payload ?? null};
         }
 
         default:
