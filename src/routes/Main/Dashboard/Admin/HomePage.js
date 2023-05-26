@@ -54,6 +54,7 @@ export default memo(() => {
             cancelText: 'Batal',
             onOk: () => {
                 dispatch(userSignOut(username));
+                window.location.href = '/auth/login';
             }
         });
 	};
@@ -78,7 +79,7 @@ export default memo(() => {
         {
             key: "3",
             label: (
-                <Link to="/auth/login" onClick={onSignOut}>
+                <Link onClick={onSignOut}>
                     <Icon name="setting" width={16} height={16} /> Logout
                 </Link>
             ),

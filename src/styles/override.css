@@ -50,13 +50,13 @@
 .ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
     color: #cc525f;
 }
-.ant-modal-confirm-body > div:nth-of-type(1) {
+/* .ant-modal-confirm-body > div:nth-of-type(1) {
     float: left;
     margin-right: 0.625rem;
     font-size: 1.125rem;
     color: #cc525f;
-}
-.ant-modal-confirm-body .ant-modal-confirm-title {
+} */
+/* .ant-modal-confirm-body .ant-modal-confirm-title {
     display: block;
     overflow: hidden;
     color: #cc525f;
@@ -64,28 +64,30 @@
     font-size: 20px;
     line-height: 24px;
     letter-spacing: 0.15px;
-}
-.ant-modal-confirm-body .ant-modal-confirm-content {
-    margin-top: 8px;
-    color: #545454;
-    font-size: 0.875rem;
-    line-height: 20px;
-    color: #ffffffb8;
-}
+} */
+/* .ant-modal-confirm-body .ant-modal-confirm-content {
+    /* margin-top: 8px; */
+    /* color: #545454; */
+    /* font-size: 0.875rem; */
+    /* line-height: 20px; */
+    /* color: #ffffffb8; */
+/* } */ 
 
-.ant-modal-confirm .ant-modal-confirm-btns {
-    display: flex;
+/* .ant-modal-confirm .ant-modal-confirm-btns {
+    /* display: flex;
     gap: 1.125rem;
-    margin-top: 2rem;
-}
-.ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
+    margin-top: 2rem; */
+    /* color: #ffffffb8; */
+/* } */
+/* .ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
     width: 100%;
     margin: 0 !important;
-}
+} */
 .ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default {
-    background-color: transparent !important;
-    border-color: #ffffff !important;
-    color: #ffffff;
+    background-color: #f2f2f2 !important;
+    /* border-color: #ffffff !important; */
+    /* border-size: 2px; */
+    /* color: #ffffff; */
 }
 .ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default:hover,
 .ant-modal-confirm .ant-modal-confirm-btns .ant-btn.ant-btn-default:focus {
