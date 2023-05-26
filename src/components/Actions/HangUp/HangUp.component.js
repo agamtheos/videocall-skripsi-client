@@ -23,11 +23,11 @@ const HangUp = ({ icon, link }) => {
             cancelText: "Don't End",
             onOk: () => {
                 window.location.replace(link);
+                Connection.stop();
+                localStorage.removeItem('caller');
+                localStorage.removeItem('callee');
             },
         });
-        Connection.stop();
-        localStorage.removeItem('caller');
-        localStorage.removeItem('callee');
     };
 
     return (

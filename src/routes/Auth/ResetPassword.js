@@ -1,32 +1,36 @@
 import React, {memo, useState} from "react";
 import {useDispatch} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
-import {userRegister} from "../../appRedux/actions/Auth"
+import {useHistory} from "react-router-dom";
+import {Button, Form, Input, Alert, Divider, notification} from "antd";
+
+import {resetPassword} from '../../appRedux/actions/Auth'
 import {getErrorMessage} from "../../util/helpers"
-import {Button, Form, Input, Alert, Divider, notification, Select} from "antd";
-import '../../styles/custom/Register.css'
+import '../../styles/custom/ResetPassword.css'
 
 export default memo(() => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [submitting, setSubmitting] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handlePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
-    const onFinish = async ({username, password, role}) => {
+    
+    const onFinish = async ({password}) => {
         try {
+            const username = localStorage.getItem('username');
             setSubmitting(true);
-            await dispatch(userRegister(username, password, role));
+            await dispatch(resetPassword(username, password));
             notification.success({
-                message: 'Akun berhasil dibuat!',
+                message: 'Password berhasil direset!',
                 description: 'Silahkan login untuk melanjutkan'
             })
             history.push('/auth/login');
+            localStorage.removeItem('username');
         } catch (error) {
+            console.log(error)
             setErrorMessage(getErrorMessage(error));
         } finally {
             setSubmitting(false);
@@ -34,12 +38,12 @@ export default memo(() => {
     };
 
     return (
-        <div className="register-page">
-            <div className="register-box">
-                <h2 className='register-header'>Daftar</h2>
+        <div className="login-page">
+            <div className="login-box">
+                <h2 className='login-header'>Reset Kata Sandi</h2>
                 {errorMessage ? (
                 <Alert
-                className="register-error"
+                className="login-error"
                 message={errorMessage}
                 type="error"
                 showIcon
@@ -48,44 +52,9 @@ export default memo(() => {
                 ) : null}
                 <Divider/>
                 <Form
-                name="register"
+                name="reset-password"
                 onFinish={onFinish}
                 className='form-group'>
-                    <p>Username</p>
-                    <Form.Item
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Masukkan Username Anda!'
-                        }
-                    ]}>
-                        <Input
-                        className="ant-input-lg"
-                        disabled={submitting}
-                        placeholder="Username"
-                        size="medium"/>
-                        
-                    </Form.Item>
-                    <p>Role</p>
-                    <Form.Item 
-                    name="role"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Masukkan role Anda!'
-                        }
-                    ]}>
-                        <Select
-                        onChange={(value) => console.log(value)}
-                        placeholder="Pilih role"
-                        defaultValue="admin"
-                        options={[
-                            { value: 'admin', label:'Admin' },
-                            { value: 'client', label:'Client' }
-                        ]}
-                        />
-                    </Form.Item>
                     <p>Password</p>
                     <Form.Item
                     name="password"
@@ -141,19 +110,14 @@ export default memo(() => {
                         onChange={handlePasswordVisibility}
                     />  Lihat Password
                     <Button
-                        className="register-btn"
+                        className="login-btn"
                         loading={submitting}
                         block
                         size="large"
                         type="primary"
                         htmlType="submit">
-                        Daftar
+                        Reset Password
                         </Button>
-                        <Link
-                        className="register-form-login"
-                        to="/auth/login">
-                            Login disini
-                        </Link>
                     </Form.Item>
                 </Form>
             </div>

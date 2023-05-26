@@ -43,11 +43,11 @@ export const userSignOut = (username) => {
 	return (dispatch) => dispatch(userPurgeAuth());
 }
 
-export const userRegister = (username, password) => {
+export const userRegister = (username, password, role) => {
     return (dispatch) => {
         return new Promise(async (resolve, reject) => {
             try {
-                await Api.post(getCollection('AUTH_REGISTER'), {username, password});
+                await Api.post(getCollection('AUTH_REGISTER'), {username, password, role});
                 resolve();
             } catch (error) {
                 reject(error);
@@ -63,6 +63,32 @@ export const userGetProfile = () => {
                 const {data: {data}} = await Api.get(getCollection('AUTH_PROFILE'));
                 dispatch({type: AUTH_PROFILE, payload: data});
                 resolve(data);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+};
+
+export const forgotPassword = (username) => {
+    return (dispatch) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await Api.post(getCollection('AUTH_FORGOT_PASSWORD'), {username});
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+};
+
+export const resetPassword = (username, password) => {
+    return (dispatch) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await Api.post(getCollection('AUTH_RESET_PASSWORD'), {username, password});
+                resolve();
             } catch (error) {
                 reject(error);
             }

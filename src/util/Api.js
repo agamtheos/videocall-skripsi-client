@@ -12,6 +12,8 @@ const collections = {
     AUTH_REGISTER: 'auth/register',
     AUTH_PROFILE: 'auth/profile',
     AUTH_LOGOUT: 'auth/logout/{{username}}',
+    AUTH_FORGOT_PASSWORD: 'auth/forgot-password',
+    AUTH_RESET_PASSWORD: 'auth/reset-password',
     CLIENT_ONLINE: 'client/online',
     ADMIN_ONLINE: 'admin/online',
 }
