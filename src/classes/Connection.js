@@ -31,14 +31,22 @@ export const registerResponse = async (message) => {
         var errorMessage = message.message ? message.message
                 : 'Unknown reason for register rejection.';
         console.log(errorMessage);
-        alert('Error registering user. See console for further information.');
+        // alert('Error registering user. See console for further information.');
     }
 }
 
 export const call = (from, to) => {
     let options = {
         onicecandidate : onIceCandidate,
-        mediaConstraints : { audio: true, video: true }
+        mediaConstraints : { audio: true, video: true },
+        iceServers: [
+            {
+                urls: [
+                    'stun:stun.l.google.com:19302',
+                    'stun:stun1.l.google.com:19302',
+                ]
+            }
+        ]
     }
 
     const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {

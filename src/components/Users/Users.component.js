@@ -13,9 +13,7 @@ const Connection = require('../../classes/Connection');
 
 const Users = ({ data }) => {
     const callerName = localStorage.getItem('username')
-
     const onClickCall = async(peerName) => {
-        await register(callerName);
         const peer = peerName;
         if (!peer) {
             return console.error('You must specify the peer name');

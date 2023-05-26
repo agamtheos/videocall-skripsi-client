@@ -17,12 +17,16 @@ const WebRtcPeer = new WebRtcPeerClass();
 const VideoCallPage = () => {
     const [muted, toggleMuted] = useToggleState(true);
     const [onCam, toggleOnCam] = useToggleState(true);
+    const role = localStorage.getItem("role");
+    const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
 
     const findRemoteUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
             return console.log("No remote stream for user ");
         }
+        console.log('STREAMM REMOTEEEE')
+        console.log(webRtcPeer.getRemoteStream())
         return webRtcPeer.getRemoteStream();
     };
 
@@ -45,7 +49,7 @@ const VideoCallPage = () => {
         <Layout
             isVideoCall
             rightSection={
-                <Link to="/dashboard/test1/room">
+                <Link to={link}>
                     <Button
                         icon={<Icon name="group" width={32} height={32} />}
                         ghost
@@ -63,6 +67,7 @@ const VideoCallPage = () => {
             >
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                     <VideoItem
+                        isRemote={true}
                         stream={findRemoteUserStream()}
                         image="/assets/img/woman.jpg"
                         name="Karen A"
@@ -72,6 +77,7 @@ const VideoCallPage = () => {
                 </Col>
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                     <VideoItem
+                        isRemote={false}
                         stream={findLocalUserStream()}
                         image="/assets/img/man.jpg"
                         name="Tyler H"
@@ -110,6 +116,7 @@ const VideoCallPage = () => {
                 </Tooltip>
                 <div className="ant-lg-only">
                     <HangUp
+                        link={link}
                         icon={<Icon name="phone" width={32} height={32} />}
                     />
                 </div>

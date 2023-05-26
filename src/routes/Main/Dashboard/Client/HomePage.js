@@ -13,6 +13,7 @@ import { register,
     startCommunication,
     stop
 } from "../../../../classes/Connection";
+import { getConfig } from "../../../../Config";
 import { webSocketController } from "../../../../classes/WebSocket";
 import { userSignOut } from "../../../../appRedux/actions/Auth";
 import { getAllAdminsOnline } from "../../../../appRedux/actions/Admin";
@@ -32,6 +33,8 @@ export default memo(() => {
     const [peerName, setPeerName] = useState('');
     const [users, setUsers] = useState([])
     const username = localStorage.getItem('username')
+    const role = localStorage.getItem('role')
+    const WEB_SOCKET_URL = getConfig('WEB_SOCKET_URL');
     
     const fetchUserData = () => {
         dispatch(getAllAdminsOnline())
@@ -83,7 +86,12 @@ export default memo(() => {
     const navigateTo = () => history.push('/dashboard/room/call');
 
     async function connWS() {
-        const ws = webSocketController.connect('wss://localhost:3030/one2one');
+        // const ws = webSocketController.connect('wss://localhost:3030/one2one');
+        const ws = webSocketController.connect(WEB_SOCKET_URL);
+        ws.onopen = async function() {
+            console.info('Connection with websocket server opened');
+            await register(username);
+        }
         // const ws = webSocketController.connect('wss://192.168.1.101:3030/one2one');
         // const ws = webSocketController.connect('wss://192.168.1.100:3030/one2one');
         ws.onmessage = async function(message) {
@@ -106,18 +114,21 @@ export default memo(() => {
             case 'stopCommunication':
                 console.info("Communication ended by remote peer");
                 stop(true);
+                const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
+                // history.push(link);
+                window.location.replace(link);
                 break;
             case 'iceCandidate':
                 const webRtcPeer = WebRtcPeer.getPeers()
                 console.log(webRtcPeer)
-                console.log('test')
+                console.log('TESSSSTTTTTTT')
                 console.log(parsedMessage.candidate)
                 await webRtcPeer.addIceCandidate(parsedMessage.candidate)
                 // add delay 2s
                 setTimeout(() => {
-                    setLoading(false);
+                    // setLoading(false);
                     navigateTo();
-                }, 2000);
+                }, 5000);
                 break;
             default:
                 console.error('Unrecognized message', parsedMessage);

@@ -8,7 +8,7 @@ import styled from "./HangUp.module.css";
 
 const Connection = require('../../../classes/Connection');
 
-const HangUp = ({ icon }) => {
+const HangUp = ({ icon, link }) => {
     const history = useHistory();
 
     const confirm = () => {
@@ -22,7 +22,7 @@ const HangUp = ({ icon }) => {
             okText: "End Session",
             cancelText: "Don't End",
             onOk: () => {
-                history.push("/dashboard/test1/room");
+                window.location.replace(link);
             },
         });
         Connection.stop();
