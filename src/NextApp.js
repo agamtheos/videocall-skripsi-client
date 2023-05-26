@@ -6,9 +6,10 @@ import { Route, Switch } from "react-router-dom";
 import store, { history } from "./appRedux/store";
 import App from "./routes";
 
+import "./index.css";
+import "./styles/override.css";
 import "./assets/vendors/style";
 import "./styles/wieldy.less";
-import "./styles/override.css";
 
 const NextApp = () => (
     <Provider store={store}>

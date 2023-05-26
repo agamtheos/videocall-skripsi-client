@@ -31,10 +31,10 @@
     },
     "scripts": {
         "start": "export HTTPS=true&&SSL_CRT_FILE=./keys/server.crt&&SSL_KEY_FILE=./keys/server.key react-app-rewired start",
-        "build": "react-scripts build",
+        "build": "react-app-rewired build",
         "prod": "serve --ssl-cert ./keys/server.crt --ssl-key ./keys/server.key -s build -l 3000",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
     },
     "eslintConfig": {
         "extends": [
