@@ -79,7 +79,6 @@ export default memo(() => {
                         <Select
                         onChange={(value) => console.log(value)}
                         placeholder="Pilih role"
-                        defaultValue="admin"
                         options={[
                             { value: 'admin', label:'Admin' },
                             { value: 'client', label:'Client' }

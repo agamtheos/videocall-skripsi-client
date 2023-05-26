@@ -96,6 +96,19 @@ export const resetPassword = (username, password) => {
     };
 };
 
+export const userChangePassword = (password, newPassword) => {
+    return (dispatch) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await Api.post(getCollection('AUTH_CHANGE_PASSWORD'), {password, newPassword});
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+};
+
 export const userVerifyToken = () => {
     return (dispatch, getState) => {
         const {auth: {token}} = getState();

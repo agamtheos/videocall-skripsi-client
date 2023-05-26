@@ -14,6 +14,7 @@ const collections = {
     AUTH_LOGOUT: 'auth/logout/{{username}}',
     AUTH_FORGOT_PASSWORD: 'auth/forgot-password',
     AUTH_RESET_PASSWORD: 'auth/reset-password',
+    AUTH_CHANGE_PASSWORD: 'auth/change-password',
     CLIENT_ONLINE: 'client/online',
     ADMIN_ONLINE: 'admin/online',
 }

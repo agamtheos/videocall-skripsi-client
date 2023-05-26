@@ -19,6 +19,10 @@ export default memo((props) => {
                     component={lazy(() => import("./Client"))}
                 />
                 <Route
+                    path={`${match.url}/profile`}
+                    component={lazy(() => import("./Profile"))}
+                />
+                <Route
                     path={`${match.url}/test1`}
                     component={lazy(() => import("./RoomPage"))}
                 />
