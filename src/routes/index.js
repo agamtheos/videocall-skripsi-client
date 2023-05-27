@@ -1,7 +1,7 @@
-import React, {memo, useState, useEffect, Suspense, lazy} from "react";
+import React, {memo, Suspense, lazy} from "react";
 import {Route, Switch, Redirect, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {updateWindowWidth} from '../appRedux/actions'
+import {useSelector} from "react-redux";
+
 import Fallback from "../components/Fallback";
 // import {userVerifyToken} from "../appRedux/actions/Auth"
 

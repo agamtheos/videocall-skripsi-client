@@ -69,7 +69,16 @@ export default memo(() => {
                         type="primary"
                         htmlType="submit">
                         Kirim
-                        </Button>
+                    </Button>
+                    <Button
+                        style={{margin: '0 auto', display: 'block', color: '#8e968e', marginTop: '10px'}}
+                        className="login-btn"
+                        size="small"
+                        type="primary"
+                        htmlType="submit"
+                        onClick={() => history.push('/auth/login')}>
+                        Kembali
+                    </Button>
                 </Form>
             </div>
         </div>

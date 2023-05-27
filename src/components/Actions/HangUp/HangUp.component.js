@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { Tooltip, Button, Modal } from "antd";
 
 import Icon from "../../Icon";
@@ -9,8 +8,6 @@ import styled from "./HangUp.module.css";
 const Connection = require('../../../classes/Connection');
 
 const HangUp = ({ icon, link }) => {
-    const history = useHistory();
-
     const confirm = () => {
         Modal.confirm({
             title: "End Session",

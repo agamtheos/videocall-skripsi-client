@@ -9,10 +9,33 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam }) => {
 
     useEffect(() => {
         if (stream) {
+            console.log('RENEEE')
             videoRef.current.srcObject = stream;
             videoRef.current.srcObject.getAudioTracks()[0].enabled = true;
         }
-	}, [stream]);
+
+        if (isMuted) {
+            videoRef.current.srcObject.getAudioTracks()[0].enabled = !videoRef.current.srcObject.getAudioTracks()[0].enabled
+            console.log('muted')
+        }
+        if (!isMuted) {
+            videoRef.current.srcObject.getAudioTracks()[0].enabled = videoRef.current.srcObject.getAudioTracks()[0].enabled
+            console.log('unmuted')
+        }
+        // if (!isOnCam) {
+        //     if (isRemote) {
+        //         videoRef.current.srcObject.getVideoTracks()[0].enabled = !videoRef.current.srcObject.getVideoTracks()[0].enabled
+        //         console.log('cam off')
+        //     }
+        //     if (!isRemote) {
+        //         videoRef.current.srcObject.getVideoTracks()[0].enabled = videoRef.current.srcObject.getVideoTracks()[0].enabled
+        //         console.log('cam on')
+        //     }
+        //     // videoRef.current.srcObject.getVideoTracks()[0].enabled = !videoRef.current.srcObject.getVideoTracks()[0].enabled
+        //     // // setMuted(true)
+        //     // console.log('cam off')
+        // }
+	}, [isMuted, stream]);
 
     return (
         <div className={styled.videoItem}>
@@ -32,7 +55,11 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam }) => {
                     TH
                 </div>
             )}
-            <span className={styled.name}>{name}</span>
+            {isRemote ? (
+                <span className={styled.name}>{name}</span>
+            ) : (
+                <span className={styled.name}>{name} (You)</span>
+            )}
             {isMuted ? (
                 <span className={styled.muted}>
                     <Icon name="mute" width={24} height={24} />

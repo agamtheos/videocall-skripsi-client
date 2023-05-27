@@ -6,7 +6,6 @@ import {
     AUTH_ROLE,
     AUTH_PROFILE,
 } from '../../constants/ActionTypes';
-import { getConfig } from '../../Config';
 
 const COOKIE_TOKEN_KEY = 'cl5ZIING9PPzJjgSGEgp';
 

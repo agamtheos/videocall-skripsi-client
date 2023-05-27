@@ -10,7 +10,7 @@ import styled from "./Layout.module.css";
 
 const { Header, Content } = BaseLayout;
 
-const Layout = ({ children, isVideoCall, rightSection }) => {
+const Layout = ({ children, me, they, isVideoCall, rightSection }) => {
     return (
         <BaseLayout className={styled.layout} hasSider={false}>
             <Header
@@ -35,7 +35,7 @@ const Layout = ({ children, isVideoCall, rightSection }) => {
                                     name="sound"
                                     style={{ marginRight: 120 }}
                                 />{" "}
-                                <span>Karen A, Tayler H (You)</span>
+                                <span>{me}, {they} (You)</span>
                             </Link>
                         </div>
                     ) : (

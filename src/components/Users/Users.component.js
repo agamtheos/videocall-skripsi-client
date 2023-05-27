@@ -1,12 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Button } from "antd";
 
 import Icon from "../Icon";
-import {
-    register
-} from "../../classes/Connection";
-
 import styled from "./Users.module.css";
 
 const Connection = require('../../classes/Connection');
@@ -19,6 +14,8 @@ const Users = ({ data }) => {
             return console.error('You must specify the peer name');
         }
         Connection.call(callerName, peer);
+        localStorage.setItem('me', callerName);
+        localStorage.setItem('they', peer);
     }
 
     return (

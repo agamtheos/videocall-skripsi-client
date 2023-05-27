@@ -153,6 +153,7 @@ export const incomingCall = (message) => {
     console.log(message.from)
     console.log(peer)
     WebRtcPeer.addPeer(peer)
+    localStorage.setItem('they', message.from)
 }
 
 export const startCommunication = (message) => {

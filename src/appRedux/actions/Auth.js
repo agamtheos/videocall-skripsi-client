@@ -4,7 +4,6 @@ import {
     AUTH_IS_VALID,
     AUTH_ROLE,
     AUTH_PROFILE,
-    AUTH_LOGOUT,
 } from "../../constants/ActionTypes";
 
 export const userPurgeAuth = () => {

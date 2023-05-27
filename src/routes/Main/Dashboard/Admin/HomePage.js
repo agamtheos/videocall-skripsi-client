@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import { Button, Dropdown, Modal } from "antd";
 import {
     QuestionCircleOutlined
@@ -22,15 +22,11 @@ import { Users } from "../../../../components/Users";
 import Icon from "../../../../components/Icon";
 
 const WebRtcPeerClass = require('../../../../classes/WebRtcPeer');
-const Connection = require('../../../../classes/Connection');
 const WebRtcPeer = new WebRtcPeerClass();
 
 export default memo(() => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [loading, setLoading] = useState(false);
-    const [registerName, setRegisterName] = useState('');
-    const [peerName, setPeerName] = useState('');
     const [users, setUsers] = useState([])
     const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
@@ -55,7 +51,8 @@ export default memo(() => {
             onOk: () => {
                 dispatch(userSignOut(username));
                 window.location.href = '/auth/login';
-            }
+            },
+            onCancel: () => {}
         });
 	};
 
@@ -79,7 +76,7 @@ export default memo(() => {
         {
             key: "2",
             label: (
-                <Link onClick={onSignOut}>
+                <Link onClick={onSignOut} >
                     <Icon name="setting" width={16} height={16} /> Logout
                 </Link>
             ),
@@ -110,6 +107,7 @@ export default memo(() => {
                 break;
             case 'incomingCall':
                 incomingCall(parsedMessage);
+                localStorage.setItem('me', username)
                 break;
             case 'startCommunication':
                 startCommunication(parsedMessage);
@@ -120,6 +118,8 @@ export default memo(() => {
                 const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
                 // history.push(link);
                 // window.location.reload();
+                localStorage.removeItem('me')
+                localStorage.removeItem('they')
                 window.location.replace(link);
                 break;
             case 'iceCandidate':
@@ -130,9 +130,8 @@ export default memo(() => {
                 await webRtcPeer.addIceCandidate(parsedMessage.candidate)
                 // add delay 2s
                 setTimeout(() => {
-                    setLoading(false);
                     navigateTo();
-                }, 5000);
+                }, 2000);
                 break;
             default:
                 console.error('Unrecognized message', parsedMessage);
@@ -171,41 +170,3 @@ export default memo(() => {
         </Layout>
     );
 });
-
-// const users = [
-//     {
-//         id: 1,
-//         name: "Karen A",
-//         shortName: "KA",
-//         imageUrl: "",
-//         background: "#fa541c",
-//     },
-//     {
-//         id: 2,
-//         name: "Jenny Weigel",
-//         shortName: "JW",
-//         imageUrl: "",
-//         background: "#722ed1",
-//     },
-//     {
-//         id: 3,
-//         name: "Katherine W",
-//         shortName: "KW",
-//         imageUrl: "",
-//         background: "#eb2f96",
-//     },
-//     {
-//         id: 4,
-//         name: "James Arkhan",
-//         shortName: "JA",
-//         imageUrl: "",
-//         background: "#1890ff",
-//     },
-//     {
-//         id: 5,
-//         name: "Boy W",
-//         shortName: "BW",
-//         imageUrl: "",
-//         background: "#13c2c2",
-//     },
-// ];

@@ -1,6 +1,7 @@
-import React, {useRef, useEffect} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Space, Tooltip } from "antd";
+import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 
 import useToggleState from "../../../../hooks/useToggleState";
 
@@ -15,10 +16,12 @@ const WebRtcPeerClass = require("../../../../classes/WebRtcPeer");
 const WebRtcPeer = new WebRtcPeerClass();
 
 const VideoCallPage = () => {
-    const [muted, toggleMuted] = useToggleState(true);
+    const [muted, toggleMuted] = useToggleState(false);
     const [onCam, toggleOnCam] = useToggleState(true);
     const role = localStorage.getItem("role");
     const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
+    const me = localStorage.getItem("me");
+    const they = localStorage.getItem("they");
 
     const findRemoteUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
@@ -47,6 +50,8 @@ const VideoCallPage = () => {
 
     return (
         <Layout
+            me={me}
+            they={they}
             isVideoCall
             rightSection={
                 <Link to={link}>
@@ -70,7 +75,7 @@ const VideoCallPage = () => {
                         isRemote={true}
                         stream={findRemoteUserStream()}
                         image="/assets/img/woman.jpg"
-                        name="Karen A"
+                        name={they}
                         isMuted={false}
                         isOnCam={true}
                     />
@@ -80,7 +85,7 @@ const VideoCallPage = () => {
                         isRemote={false}
                         stream={findLocalUserStream()}
                         image="/assets/img/man.jpg"
-                        name="Tyler H"
+                        name={me}
                         isMuted={muted}
                         isOnCam={onCam}
                     />
@@ -95,8 +100,9 @@ const VideoCallPage = () => {
             >
                 <Tooltip title={muted ? "Unmute Voice" : "Mute Voice"}>
                     <Button
-                        className={styled.active}
-                        icon={<Icon name="mute" width={32} height={32} />}
+                        // className={styled.active}
+                        icon={muted ? <AudioMutedOutlined /> : <AudioOutlined />}
+                        // icon={<Icon name={muted ? "mute" : "unmute"} width={32} height={32}/>}
                         size="large"
                         onClick={toggleMuted}
                     />

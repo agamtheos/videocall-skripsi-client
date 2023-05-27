@@ -12,6 +12,7 @@ import Setting from "./Svgs/Setting";
 import SignOut from "./Svgs/SignOut";
 import Sound from "./Svgs/Sound";
 import User from "./Svgs/User";
+import UnMute from "./Svgs/Unmute";
 
 import styled from "./Icon.module.css";
 
@@ -28,6 +29,7 @@ const icons = {
     "sign-out": SignOut,
     sound: Sound,
     user: User,
+    unmute: UnMute,
 };
 
 const Icon = ({ name, width = 24, height = 24, ...rest }) => {
