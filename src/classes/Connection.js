@@ -39,14 +39,33 @@ export const call = (from, to) => {
     let options = {
         onicecandidate : onIceCandidate,
         mediaConstraints : { audio: true, video: true },
-        iceServers: [
-            {
-                urls: [
-                    'stun:stun.l.google.com:19302',
-                    'stun:stun1.l.google.com:19302',
-                ]
-            }
-        ]
+        configuration: {
+            iceServers: [
+                {
+                    urls: "stun:a.relay.metered.ca:80",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:80",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:80?transport=tcp",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:443",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:443?transport=tcp",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+            ],
+        }
     }
 
     const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
@@ -82,7 +101,34 @@ export const register = (name) => {
 export const incomingCall = (message) => {
     const options = {
         onicecandidate : onIceCandidate,
-        mediaConstraints : { audio: true, video: true }
+        mediaConstraints : { audio: true, video: true },
+        configuration: {
+            iceServers: [
+                {
+                    urls: "stun:a.relay.metered.ca:80",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:80",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:80?transport=tcp",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:443",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+                {
+                    urls: "turn:a.relay.metered.ca:443?transport=tcp",
+                    username: "417e29407130059049b7c92e",
+                    credential: "4CZ5bkgLqE0QjdRU",
+                },
+            ],
+        }
     }
 
     const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
