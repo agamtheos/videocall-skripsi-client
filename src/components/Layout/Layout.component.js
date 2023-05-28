@@ -18,7 +18,7 @@ const Layout = ({ children, link, me, they, isVideoCall, rightSection }) => {
                 style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}
             >
                 <Space className={clsx({ "ant-lg-only": isVideoCall })}>
-                    <Link to="/">
+                    <Link>
                         <img
                             src="/assets/img/company-logo.svg"
                             alt="Company Logo"
@@ -30,7 +30,7 @@ const Layout = ({ children, link, me, they, isVideoCall, rightSection }) => {
                                 type="vertical"
                                 className={styled.divider}
                             />
-                            <Link to="/">
+                            <Link>
                                 <Icon
                                     name="sound"
                                     style={{ marginRight: 120 }}
