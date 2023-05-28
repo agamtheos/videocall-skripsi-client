@@ -50,6 +50,7 @@ const VideoCallPage = () => {
 
     return (
         <Layout
+            link={link}
             me={me}
             they={they}
             isVideoCall

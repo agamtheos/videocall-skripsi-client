@@ -10,7 +10,7 @@ import styled from "./Layout.module.css";
 
 const { Header, Content } = BaseLayout;
 
-const Layout = ({ children, me, they, isVideoCall, rightSection }) => {
+const Layout = ({ children, link, me, they, isVideoCall, rightSection }) => {
     return (
         <BaseLayout className={styled.layout} hasSider={false}>
             <Header
@@ -48,6 +48,7 @@ const Layout = ({ children, me, they, isVideoCall, rightSection }) => {
                             icon={
                                 <Icon name="sign-out" width={24} height={24} />
                             }
+                            link={link}
                         />
                     </Space>
                 ) : (
