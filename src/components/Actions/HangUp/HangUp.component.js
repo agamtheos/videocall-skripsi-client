@@ -10,14 +10,14 @@ const Connection = require('../../../classes/Connection');
 const HangUp = ({ icon, link }) => {
     const confirm = () => {
         Modal.confirm({
-            title: "End Session",
+            title: "Akhiri Sesi",
             icon: <Icon name="alert" width={24} height={24} />,
             content:
-                "The session will end for everyone and all the activities will stop. You can’t undo this action.",
+                "Sesi ini akan berhenti untuk semuanya dan semua aktivitas akan dihentikan. Anda tidak dapat kembali lagi.",
             centered: true,
             width: 320,
-            okText: "End Session",
-            cancelText: "Don't End",
+            okText: "Akhiri Sesi",
+            cancelText: "Batal",
             onOk: () => {
                 window.location.replace(link);
                 Connection.stop();

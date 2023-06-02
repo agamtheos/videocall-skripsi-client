@@ -10,8 +10,10 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam }) => {
     useEffect(() => {
         if (stream) {
             console.log('RENEEE')
-            videoRef.current.srcObject = stream;
-            videoRef.current.srcObject.getAudioTracks()[0].enabled = true;
+            console.log(stream)
+            videoRef.current.srcObject = stream[0]
+            // videoRef.current.srcObject = stream;
+            // videoRef.current.srcObject.getAudioTracks()[0].enabled = true;
         }
 
         if (isMuted) {
@@ -22,20 +24,15 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam }) => {
             videoRef.current.srcObject.getAudioTracks()[0].enabled = videoRef.current.srcObject.getAudioTracks()[0].enabled
             console.log('unmuted')
         }
-        // if (!isOnCam) {
-        //     if (isRemote) {
-        //         videoRef.current.srcObject.getVideoTracks()[0].enabled = !videoRef.current.srcObject.getVideoTracks()[0].enabled
-        //         console.log('cam off')
-        //     }
-        //     if (!isRemote) {
-        //         videoRef.current.srcObject.getVideoTracks()[0].enabled = videoRef.current.srcObject.getVideoTracks()[0].enabled
-        //         console.log('cam on')
-        //     }
-        //     // videoRef.current.srcObject.getVideoTracks()[0].enabled = !videoRef.current.srcObject.getVideoTracks()[0].enabled
-        //     // // setMuted(true)
-        //     // console.log('cam off')
-        // }
-	}, [isMuted, stream]);
+        if (!isOnCam) {
+            videoRef.current.srcObject.getVideoTracks()[0].enabled = !videoRef.current.srcObject.getVideoTracks()[0].enabled
+            console.log('oncam')
+        }
+        if (isOnCam) {
+            videoRef.current.srcObject.getVideoTracks()[0].enabled = videoRef.current.srcObject.getVideoTracks()[0].enabled
+            console.log('offcam')
+        }
+	}, [isMuted, isOnCam, stream]);
 
     return (
         <div className={styled.videoItem}>

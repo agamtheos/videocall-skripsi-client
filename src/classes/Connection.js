@@ -1,20 +1,30 @@
 import { webSocketController } from './WebSocket';
+import { Modal } from 'antd';
 
-const kurentoUtils = require('kurento-utils');
+import Icon from '../components/Icon';
 
-// const ConnectionStateClass = require('./ConnectionState');
 const WebRtcPeerClass = require('./WebRtcPeer');
 
-// const ConnectionState = new ConnectionStateClass()
 const WebRtcPeer = new WebRtcPeerClass()
 
 export const callResponse = (message) => {
     if (message.response !== 'accepted') {
-        console.log('Call not accepted by peer. Closing call')
-        let errorMessage = message.message ? message.message
-            : 'Unknown reason for call rejection.';
-        console.log(errorMessage);
-        stop(true);
+        Modal.error({
+            title: "Panggilan Ditolak",
+            icon: <Icon name="alert" width={24} height={24} />,
+            content: 'Panggilan ditolak oleh user yang Anda panggil, silahkan coba beberapa saat lagi.',
+            centered: true,
+            width: 320,
+            okText: "Tutup",
+            onOk: () => {
+                console.log('Call not accepted by peer. Closing call')
+                let errorMessage = message.message ? message.message
+                    : 'Unknown reason for call rejection.';
+                console.log(errorMessage);
+                stop(true);
+                window.location.reload();
+            },
+        });
     } else {
         // set call state = in call
         const webRtcPeer = WebRtcPeer.getPeers()
@@ -35,159 +45,186 @@ export const registerResponse = async (message) => {
     }
 }
 
-export const call = (from, to) => {
-    let options = {
-        onicecandidate : onIceCandidate,
-        mediaConstraints : { audio: true, video: true },
-        configuration: {
-            iceServers: [
-                {
-                    urls: "stun:a.relay.metered.ca:80",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:80",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:80?transport=tcp",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:443",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:443?transport=tcp",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-            ],
+export const call = async (from, to) => {
+    let configuration = {
+        iceServers: [
+            {
+                urls: "stun:stun1.l.google.com:19302"
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+        ]
+    };
+
+    const peer = new RTCPeerConnection(configuration);
+    // const peer = new RTCPeerConnection();
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    peer.addTrack(stream.getTracks()[0], stream)
+    await peer.addStream(stream)
+
+    // create offer
+    const offer = await peer.createOffer();
+
+    let message = {
+        id : 'call',
+        from : from, // user yang melakukan panggilan
+        to : to, // user yang menerima panggilan
+        sdpOffer : offer,
+        state: 'req_calling'
+    };
+    sendMessage(message);
+
+    await peer.setLocalDescription(offer);
+    WebRtcPeer.addPeer(peer)
+    peer.onicecandidate = function (event) {
+        if (event.candidate) {
+            const message = {
+                id : 'onIceCandidate',
+                candidate : event.candidate,
+                to : to,
+                from: from
+            }
+            sendMessage(message);
         }
     }
-
-    const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
-        if (error) return console.error(error);
-
-        this.generateOffer(function (error, offerSdp) {
-            if (error) {
-                console.error(error);
-            }
-            var message = {
-                id : 'call',
-                from : from, // user yang melakukan panggilan
-                to : to, // user yang menerima panggilan
-                sdpOffer : offerSdp
-            };
-            sendMessage(message);
-        });
-    });
-    WebRtcPeer.addPeer(peer)
-    console.log('peer')
-    console.log(peer)
-    console.log(from)
 }
 
 export const register = (name) => {
     var message = {
         id : 'register',
-        name : name
+        name : name,
+        state: 'registered'
     };
     sendMessage(message);
 }
 
-export const incomingCall = (message) => {
-    const options = {
-        onicecandidate : onIceCandidate,
-        mediaConstraints : { audio: true, video: true },
-        configuration: {
-            iceServers: [
-                {
-                    urls: "stun:a.relay.metered.ca:80",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:80",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:80?transport=tcp",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:443",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-                {
-                    urls: "turn:a.relay.metered.ca:443?transport=tcp",
-                    username: "417e29407130059049b7c92e",
-                    credential: "4CZ5bkgLqE0QjdRU",
-                },
-            ],
+export const incomingCall = async (message) => {
+    const configuration = {
+        iceServers: [
+            {
+                urls: "stun:stun1.l.google.com:19302"
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+        ]
+    }
+
+    // create peer using RTC
+    const peer = new RTCPeerConnection(configuration);
+    // const peer = new RTCPeerConnection();
+
+    peer.setRemoteDescription(new RTCSessionDescription(message.sdpOffer))
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    peer.addTrack(stream.getTracks()[0], stream)
+    await peer.addStream(stream)
+
+    const answer = await peer.createAnswer();
+
+    await peer.setLocalDescription(answer);
+
+        WebRtcPeer.addPeer(peer)
+
+    peer.onicecandidate = function (event) {
+        if (event.candidate) {
+            const msg = {
+                id : 'onIceCandidate',
+                candidate : event.candidate,
+                to : message.from,
+                from: message.to
+            }
+            sendMessage(msg);
         }
     }
 
-    const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
-        if (error) return console.error(error);
-
-        this.generateOffer(function (error, offerSdp) {
-            if (error) {
-                // set call state
-                return console.error(error);
-            }
-
-            const response = {
-                id: 'incomingCallResponse',
-                from: message.from,
-                callResponse: 'accept',
-                sdpOffer: offerSdp
-            }
-            sendMessage(response);
-        });
-    });
-    console.log('incoming call peer')
-    console.log(message.from)
-    console.log(peer)
-    WebRtcPeer.addPeer(peer)
+    
+    let response = {
+        id: 'incomingCallResponse',
+        from: message.from,
+        callResponse: 'accept',
+        sdpOffer: answer
+    }
+    sendMessage(response);
     localStorage.setItem('they', message.from)
 }
 
+export const rejectCall = (message) => {
+    let response = {
+        id: 'incomingCallResponse',
+        from: message.from,
+        callResponse: 'reject',
+        message: 'User Menolak Panggilan'
+    }
+    sendMessage(response);
+    stop(true);
+}
+
 export const startCommunication = (message) => {
-    //set call state = in call
-    console.log('get all peers')
-    console.log(WebRtcPeer.getPeers())
-    WebRtcPeer.getPeers().processAnswer(message.sdpAnswer, function (error) {
-        if (error) return console.error(error);
-    });
+    const webRtcPeer = WebRtcPeer.getPeers()
+    webRtcPeer.setRemoteDescription(new RTCSessionDescription(message.sdpAnswer))
+}
+
+export const onReceiveFinishRequest = (message) => {
+    const msg = {
+        id: 'onFinishRequest',
+    }
+    sendMessage(msg)
 }
 
 export const onIceCandidate = (candidate) => {
     console.log('Local candidate' + JSON.stringify(candidate));
-
-    const message = {
-        id : 'onIceCandidate',
-        candidate : candidate
-    }
-    sendMessage(message);
+    WebRtcPeer.getPeers().addIceCandidate(new RTCIceCandidate(candidate))
 }
 
 export const stop = (message) => {
     // set call state to no call
 
     const webRtcPeer = WebRtcPeer.getPeers()
-    // const webRtcPeerStopper = WebRtcPeer.getPeer(message.stopperUser)
-    // const webRtcPeerStopped = WebRtcPeer.getPeer(message.stoppedUser)
+
     if (webRtcPeer) {
-        // WebRtcPeer.removePeer(message.stopperUser)
-        // WebRtcPeer.removePeer(message.stoppedUser)
         WebRtcPeer.removePeer();
         if (!message) {
             const message = {
-                id: 'stop'
+                id: 'stop',
+                from: localStorage.getItem('me'),
+                to: localStorage.getItem('they')
             }
             sendMessage(message)
         }
@@ -199,135 +236,3 @@ export const sendMessage = (message) => {
     console.log('Sending message: ' + jsonMessage);
     webSocketController.send(jsonMessage);
 }
-
-// module.exports = function Connection() {
-//     export const callResponse = (message) => {
-//         if (message.response !== 'accepted') {
-//             console.log('Call not accepted by peer. Closing call')
-//             let errorMessage = message.message ? message.message
-// 				: 'Unknown reason for call rejection.';
-// 		    console.log(errorMessage);
-//             export const stop(true);
-//         } else {
-//             // set call state = in call
-//             const webRtcPeer = WebRtcPeer.getPeer(message.from)
-//             webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-//                 if (error) return console.error(error);
-//             });
-//         }
-//     }
-
-//     export const registerResponse = (message) => {
-//         if (message.response === 'accepted') {
-//             console.log('User ' + message.name + ' registered successfully');
-//         } else {
-//             var errorMessage = message.message ? message.message
-//                     : 'Unknown reason for register rejection.';
-//             console.log(errorMessage);
-//             alert('Error registering user. See console for further information.');
-//         }
-//     }
-
-//     export const call = (from, to) => {
-//         let options = {
-//             onicecandidate : export const onIceCandidate,
-//             mediaConstraints : { audio: true, video: true }
-//         }
-
-//         const peer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-//             if (error) return console.error(error);
-
-//             export const generateOffer(function (error, offerSdp) {
-//                 if (error) {
-//                     console.error(error);
-//                 }
-//                 var message = {
-//                     id : 'call',
-//                     from : from,
-//                     to : to,
-//                     sdpOffer : offerSdp
-//                 };
-//                 export const sendMessage(message);
-//             });
-//         });
-//         WebRtcPeer.addPeer(from, peer)
-//     }
-
-//     export const register = (name) => {
-//         var message = {
-//             id : 'register',
-//             name : name
-//         };
-//         export const sendMessage(message);
-//     }
-
-//     export const incomingCall = (message) => {
-//         const options = {
-//             onicecandidate : export const onIceCandidate,
-//             mediaConstraints : { audio: true, video: true }
-//         }
-
-//         const peer = kurentoUtils.WebRtcPeer.WebRtcPeerRecv(options, function (error) {
-//             if (error) return console.error(error);
-
-//             export const generateOffer(function (error, offerSdp) {
-//                 if (error) {
-//                     // set call state
-//                     return console.error(error);
-//                 }
-
-//                 const response = {
-//                     id: 'incomingCallResponse',
-//                     from: message.from,
-//                     callResponse: 'accept',
-//                     sdpOffer: offerSdp
-//                 }
-//                 export const sendMessage(response);
-//             });
-//         });
-
-//         WebRtcPeer.addPeer(message.from, peer)
-//     }
-
-//     export const startCommunication = (message) => {
-//         //set call state = in call
-
-//         WebRtcPeer.getPeers().processAnswer(message.sdpAnswer, function (error) {
-//             if (error) return console.error(error);
-//         });
-//     }
-
-//     export const onIceCandidate = (candidate) => {
-//         console.log('Local candidate' + JSON.stringify(candidate));
-
-//         const message = {
-//             id : 'onIceCandidate',
-//             candidate : candidate
-//         }
-//         export const sendMessage(message);
-//     }
-
-//     export const stop = (message) => {
-//         // set call state to no call
-
-//         const webRtcPeerStopper = WebRtcPeer.getPeer(message.stopperUser)
-//         const webRtcPeerStopped = WebRtcPeer.getPeer(message.stoppedUser)
-//         if (webRtcPeerStopper && webRtcPeerStopped) {
-//             WebRtcPeer.removePeer(message.stopperUser)
-//             WebRtcPeer.removePeer(message.stoppedUser)
-
-//             if (!message) {
-//                 const message = {
-//                     id: 'stop'
-//                 }
-//                 export const sendMessage(message)
-//             }
-//         }
-//     }
-
-//     export const sendMessage = (message) => {
-//         let jsonMessage = JSON.stringify(message);
-//         console.log('Sending message: ' + jsonMessage);
-//         WebSocket.ws().send(jsonMessage);
-//     }
-// }

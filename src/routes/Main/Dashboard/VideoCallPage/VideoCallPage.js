@@ -25,12 +25,13 @@ const VideoCallPage = () => {
 
     const findRemoteUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
+        console.log('webRtcPeer', webRtcPeer)
         if (!webRtcPeer) {
             return console.log("No remote stream for user ");
         }
         console.log('STREAMM REMOTEEEE')
-        console.log(webRtcPeer.getRemoteStream())
-        return webRtcPeer.getRemoteStream();
+        console.log(webRtcPeer.getRemoteStreams())
+        return webRtcPeer.getRemoteStreams();
     };
 
     const findLocalUserStream = () => {
@@ -42,7 +43,7 @@ const VideoCallPage = () => {
         if (!webRtcPeer) {
             return console.log("No local stream for user ");
         }
-        const c = webRtcPeer.getLocalStream();
+        const c = webRtcPeer.getLocalStreams();
         console.log("HUEHUE");
         console.log(c);
         return c;

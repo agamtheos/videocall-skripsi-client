@@ -27,6 +27,7 @@
         "redux-thunk": "^2.3.0",
         "serve": "^14.2.0",
         "styled-components": "^5.3.6",
+        "use-sound": "^4.0.1",
         "webrtc-adapter": "^8.2.0"
     },
     "scripts": {

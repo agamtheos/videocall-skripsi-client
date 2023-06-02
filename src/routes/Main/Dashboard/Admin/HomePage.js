@@ -11,7 +11,9 @@ import { register,
     callResponse,
     incomingCall,
     startCommunication,
-    stop
+    stop as stopCall,
+    onReceiveFinishRequest,
+    rejectCall
 } from "../../../../classes/Connection";
 import { getConfig } from "../../../../Config";
 import { webSocketController } from "../../../../classes/WebSocket";
@@ -20,6 +22,7 @@ import { getAllClientsOnline } from "../../../../appRedux/actions/Client";
 import { Layout } from "../../../../components/Layout";
 import { Users } from "../../../../components/Users";
 import Icon from "../../../../components/Icon";
+import incomingSound from '../../../../assets/sounds/incoming_call.mp3';
 
 const WebRtcPeerClass = require('../../../../classes/WebRtcPeer');
 const WebRtcPeer = new WebRtcPeerClass();
@@ -31,7 +34,7 @@ export default memo(() => {
     const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
     const WEB_SOCKET_URL = getConfig('WEB_SOCKET_URL');
-    console.log(WEB_SOCKET_URL)
+    let [playAudio, setPlayAudio] = useState(false);
     
 
     const fetchUserData = () => {
@@ -39,6 +42,18 @@ export default memo(() => {
             .then((res) => {
                 setUsers(res)
             })
+    }
+
+    const play = () => {
+        setPlayAudio(true);
+        playAudio = new Audio(incomingSound);
+        playAudio.loop = true;
+        playAudio.play();
+    };
+
+    const stop = () => {
+        setPlayAudio(false);
+        playAudio.pause();
     }
 
     const onSignOut = () => {
@@ -106,30 +121,51 @@ export default memo(() => {
                 callResponse(parsedMessage);
                 break;
             case 'incomingCall':
-                incomingCall(parsedMessage);
-                localStorage.setItem('me', username)
+                play();
+                Modal.confirm({
+                    title: "Panggilan Masuk",
+                    icon: <Icon name="alert" width={24} height={24} />,
+                    content:
+                        "Anda mendapatkan panggilan dari " + parsedMessage.from + ". Apakah Anda ingin menerima panggilan?",
+                    centered: true,
+                    width: 320,
+                    okText: "Terima",
+                    cancelText: "Tolak",
+                    onOk: () => {
+                        stop();
+                        incomingCall(parsedMessage);
+                        localStorage.setItem('me', username)
+                    },
+                    onCancel: () => {
+                        stop();
+                        rejectCall(parsedMessage);
+                    }
+                });
                 break;
             case 'startCommunication':
                 startCommunication(parsedMessage);
                 break;
             case 'stopCommunication':
                 console.info("Communication ended by remote peer");
-                stop(true);
+                stopCall(true);
                 const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
                 // history.push(link);
-                // window.location.reload();
                 localStorage.removeItem('me')
                 localStorage.removeItem('they')
                 window.location.replace(link);
                 break;
+            case 'onReceiveFinishRequest':
+                onReceiveFinishRequest(parsedMessage);
+            break;
             case 'iceCandidate':
                 const webRtcPeer = WebRtcPeer.getPeers()
                 console.log(webRtcPeer)
                 console.log('TESSSSTTTTTTT')
                 console.log(parsedMessage.candidate)
-                await webRtcPeer.addIceCandidate(parsedMessage.candidate)
+                await webRtcPeer.addIceCandidate(new RTCIceCandidate(parsedMessage.candidate))
                 // add delay 2s
                 setTimeout(() => {
+                    // setLoading(false);
                     navigateTo();
                 }, 2000);
                 break;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 import Icon from "../Icon";
 import styled from "./Users.module.css";
@@ -13,9 +13,21 @@ const Users = ({ data }) => {
         if (!peer) {
             return console.error('You must specify the peer name');
         }
-        Connection.call(callerName, peer);
-        localStorage.setItem('me', callerName);
-        localStorage.setItem('they', peer);
+        Modal.confirm({
+            title: "Memanggil",
+            icon: <Icon name="alert" width={24} height={24} />,
+            content:
+                "Apakah Anda yakin ingin memanggil " + peer + "?",
+            centered: true,
+            width: 320,
+            okText: "Ya, Panggil",
+            cancelText: "Batal",
+            onOk: () => {
+                Connection.call(callerName, peer);
+                localStorage.setItem('me', callerName);
+                localStorage.setItem('they', peer);
+            },
+        });
     }
 
     return (

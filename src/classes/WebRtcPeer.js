@@ -14,7 +14,7 @@ module.exports = function WebRtcPeer() {
         //     delete peers[id];
         // }
         if (peers) {
-            peers.dispose();
+            peers.close();
             peers = null;
         }
     }
