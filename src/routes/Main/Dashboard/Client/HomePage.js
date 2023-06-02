@@ -12,8 +12,8 @@ import { register,
     incomingCall,
     startCommunication,
     stop as stopCall,
-    onReceiveFinishRequest,
-    rejectCall
+    rejectCall,
+    startCandidates
 } from "../../../../classes/Connection";
 import { getConfig } from "../../../../Config";
 import { webSocketController } from "../../../../classes/WebSocket";
@@ -152,8 +152,8 @@ export default memo(() => {
                 localStorage.removeItem('they')
                 window.location.replace(link);
                 break;
-            case 'onReceiveFinishRequest':
-                onReceiveFinishRequest(parsedMessage);
+            case 'startCandidates':
+                startCandidates(parsedMessage);
             break;
             case 'iceCandidate':
                 const webRtcPeer = WebRtcPeer.getPeers()
@@ -161,12 +161,16 @@ export default memo(() => {
                 console.log('TESSSSTTTTTTT')
                 console.log(parsedMessage.candidate)
                 await webRtcPeer.addIceCandidate(new RTCIceCandidate(parsedMessage.candidate))
+
                 // add delay 2s
-                setTimeout(() => {
-                    // setLoading(false);
-                    navigateTo();
-                }, 2000);
+                // setTimeout(() => {
+                //     // setLoading(false);
+                //     navigateTo();
+                // }, 2000);
                 break;
+            case 'peerConnected':
+                navigateTo();
+            break;
             default:
                 console.error('Unrecognized message', parsedMessage);
             }

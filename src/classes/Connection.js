@@ -1,6 +1,6 @@
-import { webSocketController } from './WebSocket';
 import { Modal } from 'antd';
 
+import { webSocketController } from './WebSocket';
 import Icon from '../components/Icon';
 
 const WebRtcPeerClass = require('./WebRtcPeer');
@@ -8,6 +8,7 @@ const WebRtcPeerClass = require('./WebRtcPeer');
 const WebRtcPeer = new WebRtcPeerClass()
 
 export const callResponse = (message) => {
+    console.log('RENEEEJEJEJEJ')
     if (message.response !== 'accepted') {
         Modal.error({
             title: "Panggilan Ditolak",
@@ -27,10 +28,22 @@ export const callResponse = (message) => {
         });
     } else {
         // set call state = in call
-        const webRtcPeer = WebRtcPeer.getPeers()
-        webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-            if (error) return console.error(error);
-        });
+        // const webRtcPeer = WebRtcPeer.getPeers()
+        // console.log(webRtcPeer)
+        // webRtcPeer.onicecandidate = function (event) {
+        //     if (event.candidate) {
+        //         const msg = {
+        //             id : 'onIceCandidate',
+        //             candidate : event.candidate,
+        //             to : message.from,
+        //             from: message.to
+        //         }
+        //         sendMessage(msg);
+        //     }
+        // } 
+        // webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
+        //     if (error) return console.error(error);
+        // });
     }
 }
 
@@ -95,17 +108,34 @@ export const call = async (from, to) => {
 
     await peer.setLocalDescription(offer);
     WebRtcPeer.addPeer(peer)
-    peer.onicecandidate = function (event) {
-        if (event.candidate) {
-            const message = {
-                id : 'onIceCandidate',
-                candidate : event.candidate,
-                to : to,
-                from: from
+
+    // set delay 1s
+    
+        peer.onicecandidate = function (event) {
+            if (event.candidate) {
+                const message = {
+                    id : 'onIceCandidate',
+                    candidate : event.candidate,
+                    to : to,
+                    from: from
+                }
+                sendMessage(message);
             }
-            sendMessage(message);
+        }
+
+    // get to know when connected to peer
+    peer.onconnectionstatechange = function (event) {
+        console.log('masuk sono')
+        if (peer.connectionState === 'connected') {
+            const message = {
+                id: 'peerConnected',
+                from: localStorage.getItem('me'),
+                to: localStorage.getItem('they')
+            }
+            sendMessage(message)
         }
     }
+
 }
 
 export const register = (name) => {
@@ -160,7 +190,7 @@ export const incomingCall = async (message) => {
 
     await peer.setLocalDescription(answer);
 
-        WebRtcPeer.addPeer(peer)
+    WebRtcPeer.addPeer(peer)
 
     peer.onicecandidate = function (event) {
         if (event.candidate) {
@@ -174,12 +204,25 @@ export const incomingCall = async (message) => {
         }
     }
 
-    
+    // get to know when connected to peer
+    peer.onconnectionstatechange = function (event) {
+        console.log('masuk sono')
+        if (peer.connectionState === 'connected') {
+            const message = {
+                id: 'peerConnected',
+                from: localStorage.getItem('me'),
+                to: localStorage.getItem('they')
+            }
+            sendMessage(message)
+        }
+    }
+
     let response = {
         id: 'incomingCallResponse',
         from: message.from,
         callResponse: 'accept',
-        sdpOffer: answer
+        sdpOffer: answer,
+        state: 'acc_calling'
     }
     sendMessage(response);
     localStorage.setItem('they', message.from)
@@ -201,11 +244,20 @@ export const startCommunication = (message) => {
     webRtcPeer.setRemoteDescription(new RTCSessionDescription(message.sdpAnswer))
 }
 
-export const onReceiveFinishRequest = (message) => {
-    const msg = {
-        id: 'onFinishRequest',
+export const startCandidates = (message) => {
+    const webRtcPeer = WebRtcPeer.getPeers()
+    console.log(webRtcPeer)
+    webRtcPeer.onicecandidate = function (event) {
+        if (event.candidate) {
+            const msg = {
+                id : 'onIceCandidate',
+                candidate : event.candidate,
+                to : localStorage.getItem('they'),
+                from: localStorage.getItem('me')
+            }
+            sendMessage(msg);
+        }
     }
-    sendMessage(msg)
 }
 
 export const onIceCandidate = (candidate) => {
