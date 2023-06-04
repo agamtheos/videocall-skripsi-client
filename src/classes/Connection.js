@@ -105,7 +105,7 @@ export const call = async (from, to) => {
     // const peer = new RTCPeerConnection();
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    peer.addTrack(stream.getTracks()[0], stream)
+    // peer.addTrack(stream.getTracks()[0], stream)
     await peer.addStream(stream)
 
     // create offer
@@ -197,7 +197,7 @@ export const incomingCall = async (message) => {
     peer.setRemoteDescription(new RTCSessionDescription(message.sdpOffer))
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    peer.addTrack(stream.getTracks()[0], stream)
+    // peer.addTrack(stream.getTracks()[0], stream)
     await peer.addStream(stream)
 
     const answer = await peer.createAnswer();
