@@ -105,16 +105,7 @@ export const call = async (from, to) => {
     // const peer = new RTCPeerConnection();
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    // peer.addTrack(stream.getTracks()[0], stream)
-    // add track using eventlistener
-    peer.addEventListener('track', (event) => {
-        event.streams[0].getTracks().forEach(track => {
-            console.log('track')
-            console.log(track)
-            console.log(event.streams[0])
-            stream.addTrack(track)
-        })
-    })
+    peer.addTrack(stream.getTracks()[0], stream)
     // await peer.addStream(stream)
 
     // create offer
@@ -134,7 +125,7 @@ export const call = async (from, to) => {
 
     // set delay 1s
     
-    peer.addEventListener('onicecandidate', (event) => {
+    peer.onicecandidate = function (event) {
         if (event.candidate) {
             const message = {
                 id : 'onIceCandidate',
@@ -144,21 +135,10 @@ export const call = async (from, to) => {
             }
             sendMessage(message);
         }
-    })
-    // peer.onicecandidate = function (event) {
-    //     if (event.candidate) {
-    //         const message = {
-    //             id : 'onIceCandidate',
-    //             candidate : event.candidate,
-    //             to : to,
-    //             from: from
-    //         }
-    //         sendMessage(message);
-    //     }
-    // }
+    }
 
     // get to know when connected to peer
-    peer.addEventListener('connectionstatechange', (event) => {
+    peer.onconnectionstatechange = function (event) {
         console.log('masuk sono')
         if (peer.connectionState === 'connected') {
             const message = {
@@ -168,18 +148,7 @@ export const call = async (from, to) => {
             }
             sendMessage(message)
         }
-    })
-    // peer.onconnectionstatechange = function (event) {
-    //     console.log('masuk sono')
-    //     if (peer.connectionState === 'connected') {
-    //         const message = {
-    //             id: 'peerConnected',
-    //             from: localStorage.getItem('me'),
-    //             to: localStorage.getItem('they')
-    //         }
-    //         sendMessage(message)
-    //     }
-    // }
+    }
 
     // peer.onicegatheringstatechange = function (event) {
     //     console.log('masuk sono')
@@ -240,15 +209,7 @@ export const incomingCall = async (message) => {
     peer.setRemoteDescription(new RTCSessionDescription(message.sdpOffer))
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    // peer.addTrack(stream.getTracks()[0], stream)
-    peer.addEventListener('track', (event) => {
-        event.streams[0].getTracks().forEach(track => {
-            console.log('track')
-            console.log(track)
-            console.log(event.streams[0])
-            stream.addTrack(track)
-        })
-    })
+    peer.addTrack(stream.getTracks()[0], stream)
     // await peer.addStream(stream)
 
     const answer = await peer.createAnswer();
@@ -257,7 +218,7 @@ export const incomingCall = async (message) => {
 
     WebRtcPeer.addPeer(peer)
 
-    peer.addEventListener('onicecandidate', (event) => {
+    peer.onicecandidate = function (event) {
         if (event.candidate) {
             const msg = {
                 id : 'onIceCandidate',
@@ -267,21 +228,10 @@ export const incomingCall = async (message) => {
             }
             sendMessage(msg);
         }
-    })
-    // peer.onicecandidate = function (event) {
-    //     if (event.candidate) {
-    //         const msg = {
-    //             id : 'onIceCandidate',
-    //             candidate : event.candidate,
-    //             to : message.from,
-    //             from: message.to
-    //         }
-    //         sendMessage(msg);
-    //     }
-    // }
+    }
 
     // get to know when connected to peer
-    peer.addEventListener('connectionstatechange', (event) => {
+    peer.onconnectionstatechange = function (event) {
         console.log('masuk sono')
         if (peer.connectionState === 'connected') {
             const message = {
@@ -291,18 +241,7 @@ export const incomingCall = async (message) => {
             }
             sendMessage(message)
         }
-    })
-    // peer.onconnectionstatechange = function (event) {
-    //     console.log('masuk sono')
-    //     if (peer.connectionState === 'connected') {
-    //         const message = {
-    //             id: 'peerConnected',
-    //             from: localStorage.getItem('me'),
-    //             to: localStorage.getItem('they')
-    //         }
-    //         sendMessage(message)
-    //     }
-    // }
+    }
 
     // peer.onicegatheringstatechange = function (event) {
     //     console.log('masuk sono')
