@@ -138,9 +138,21 @@ export const call = async (from, to) => {
         }
 
     // get to know when connected to peer
-    peer.onconnectionstatechange = function (event) {
+    // peer.onconnectionstatechange = function (event) {
+    //     console.log('masuk sono')
+    //     if (peer.connectionState === 'connected') {
+    //         const message = {
+    //             id: 'peerConnected',
+    //             from: localStorage.getItem('me'),
+    //             to: localStorage.getItem('they')
+    //         }
+    //         sendMessage(message)
+    //     }
+    // }
+
+    peer.onicegatheringstatechange = function (event) {
         console.log('masuk sono')
-        if (peer.connectionState === 'connected') {
+        if (peer.iceGatheringState === 'complete') {
             const message = {
                 id: 'peerConnected',
                 from: localStorage.getItem('me'),
@@ -219,9 +231,21 @@ export const incomingCall = async (message) => {
     }
 
     // get to know when connected to peer
-    peer.onconnectionstatechange = function (event) {
+    // peer.onconnectionstatechange = function (event) {
+    //     console.log('masuk sono')
+    //     if (peer.connectionState === 'connected') {
+    //         const message = {
+    //             id: 'peerConnected',
+    //             from: localStorage.getItem('me'),
+    //             to: localStorage.getItem('they')
+    //         }
+    //         sendMessage(message)
+    //     }
+    // }
+
+    peer.onicegatheringstatechange = function (event) {
         console.log('masuk sono')
-        if (peer.connectionState === 'connected') {
+        if (peer.iceGatheringState === 'complete') {
             const message = {
                 id: 'peerConnected',
                 from: localStorage.getItem('me'),
