@@ -98,7 +98,7 @@ export const call = async (from, to) => {
                 username: "417e29407130059049b7c92e",
                 credential: "4CZ5bkgLqE0QjdRU",
             },
-        ]
+        ],
     };
 
     const peer = new RTCPeerConnection(configuration);
@@ -106,7 +106,16 @@ export const call = async (from, to) => {
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
     // peer.addTrack(stream.getTracks()[0], stream)
-    await peer.addStream(stream)
+    // add track using eventlistener
+    peer.addEventListener('track', (event) => {
+        event.streams[0].getTracks().forEach(track => {
+            console.log('track')
+            console.log(track)
+            console.log(event.streams[0])
+            stream.addTrack(track)
+        })
+    })
+    // await peer.addStream(stream)
 
     // create offer
     const offer = await peer.createOffer();
@@ -125,7 +134,7 @@ export const call = async (from, to) => {
 
     // set delay 1s
     
-    peer.onicecandidate = function (event) {
+    peer.addEventListener('icecandidate', (event) => {
         if (event.candidate) {
             const message = {
                 id : 'onIceCandidate',
@@ -135,9 +144,31 @@ export const call = async (from, to) => {
             }
             sendMessage(message);
         }
-    }
+    })
+    // peer.onicecandidate = function (event) {
+    //     if (event.candidate) {
+    //         const message = {
+    //             id : 'onIceCandidate',
+    //             candidate : event.candidate,
+    //             to : to,
+    //             from: from
+    //         }
+    //         sendMessage(message);
+    //     }
+    // }
 
     // get to know when connected to peer
+    peer.addEventListener('connectionstatechange', (event) => {
+        console.log('masuk sono')
+        if (peer.connectionState === 'connected') {
+            const message = {
+                id: 'peerConnected',
+                from: localStorage.getItem('me'),
+                to: localStorage.getItem('they')
+            }
+            sendMessage(message)
+        }
+    })
     // peer.onconnectionstatechange = function (event) {
     //     console.log('masuk sono')
     //     if (peer.connectionState === 'connected') {
@@ -150,17 +181,17 @@ export const call = async (from, to) => {
     //     }
     // }
 
-    peer.onicegatheringstatechange = function (event) {
-        console.log('masuk sono')
-        if (peer.iceGatheringState === 'complete') {
-            const message = {
-                id: 'peerConnected',
-                from: localStorage.getItem('me'),
-                to: localStorage.getItem('they')
-            }
-            sendMessage(message)
-        }
-    }
+    // peer.onicegatheringstatechange = function (event) {
+    //     console.log('masuk sono')
+    //     if (peer.iceGatheringState === 'complete') {
+    //         const message = {
+    //             id: 'peerConnected',
+    //             from: localStorage.getItem('me'),
+    //             to: localStorage.getItem('they')
+    //         }
+    //         sendMessage(message)
+    //     }
+    // }
 
 }
 
@@ -199,7 +230,7 @@ export const incomingCall = async (message) => {
                 username: "417e29407130059049b7c92e",
                 credential: "4CZ5bkgLqE0QjdRU",
             },
-        ]
+        ],
     }
 
     // create peer using RTC
@@ -210,7 +241,15 @@ export const incomingCall = async (message) => {
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
     // peer.addTrack(stream.getTracks()[0], stream)
-    await peer.addStream(stream)
+    peer.addEventListener('track', (event) => {
+        event.streams[0].getTracks().forEach(track => {
+            console.log('track')
+            console.log(track)
+            console.log(event.streams[0])
+            stream.addTrack(track)
+        })
+    })
+    // await peer.addStream(stream)
 
     const answer = await peer.createAnswer();
 
@@ -218,7 +257,7 @@ export const incomingCall = async (message) => {
 
     WebRtcPeer.addPeer(peer)
 
-    peer.onicecandidate = function (event) {
+    peer.addEventListener('icecandidate', (event) => {
         if (event.candidate) {
             const msg = {
                 id : 'onIceCandidate',
@@ -228,9 +267,31 @@ export const incomingCall = async (message) => {
             }
             sendMessage(msg);
         }
-    }
+    })
+    // peer.onicecandidate = function (event) {
+    //     if (event.candidate) {
+    //         const msg = {
+    //             id : 'onIceCandidate',
+    //             candidate : event.candidate,
+    //             to : message.from,
+    //             from: message.to
+    //         }
+    //         sendMessage(msg);
+    //     }
+    // }
 
     // get to know when connected to peer
+    peer.addEventListener('connectionstatechange', (event) => {
+        console.log('masuk sono')
+        if (peer.connectionState === 'connected') {
+            const message = {
+                id: 'peerConnected',
+                from: localStorage.getItem('me'),
+                to: localStorage.getItem('they')
+            }
+            sendMessage(message)
+        }
+    })
     // peer.onconnectionstatechange = function (event) {
     //     console.log('masuk sono')
     //     if (peer.connectionState === 'connected') {
@@ -243,17 +304,17 @@ export const incomingCall = async (message) => {
     //     }
     // }
 
-    peer.onicegatheringstatechange = function (event) {
-        console.log('masuk sono')
-        if (peer.iceGatheringState === 'complete') {
-            const message = {
-                id: 'peerConnected',
-                from: localStorage.getItem('me'),
-                to: localStorage.getItem('they')
-            }
-            sendMessage(message)
-        }
-    }
+    // peer.onicegatheringstatechange = function (event) {
+    //     console.log('masuk sono')
+    //     if (peer.iceGatheringState === 'complete') {
+    //         const message = {
+    //             id: 'peerConnected',
+    //             from: localStorage.getItem('me'),
+    //             to: localStorage.getItem('they')
+    //         }
+    //         sendMessage(message)
+    //     }
+    // }
 
     let response = {
         id: 'incomingCallResponse',
