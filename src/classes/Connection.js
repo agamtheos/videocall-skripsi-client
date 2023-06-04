@@ -134,7 +134,7 @@ export const call = async (from, to) => {
 
     // set delay 1s
     
-    peer.addEventListener('icecandidate', (event) => {
+    peer.addEventListener('onicecandidate', (event) => {
         if (event.candidate) {
             const message = {
                 id : 'onIceCandidate',
@@ -257,7 +257,7 @@ export const incomingCall = async (message) => {
 
     WebRtcPeer.addPeer(peer)
 
-    peer.addEventListener('icecandidate', (event) => {
+    peer.addEventListener('onicecandidate', (event) => {
         if (event.candidate) {
             const msg = {
                 id : 'onIceCandidate',
