@@ -35,7 +35,7 @@ const Layout = ({ children, link, me, they, isVideoCall, rightSection }) => {
                                     name="sound"
                                     style={{ marginRight: 120 }}
                                 />{" "}
-                                <span>{me}, {they} (You)</span>
+                                <span>{they}, {me} (You)</span>
                             </Link>
                         </div>
                     ) : (

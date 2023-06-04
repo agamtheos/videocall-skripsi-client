@@ -7,7 +7,7 @@ export default memo((props) => {
     const { match } = props;
 
     return (
-        <Suspense fallback={<Fallback />}>
+            <Suspense fallback={<Fallback />}>
             <Switch>
                 <Route
                     path={`${match.url}/admin`}
@@ -30,6 +30,6 @@ export default memo((props) => {
                     component={lazy(() => import("./VideoCallPage"))}
                 />
             </Switch>
-        </Suspense>
+            </Suspense>
     );
 });

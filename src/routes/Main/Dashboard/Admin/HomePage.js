@@ -80,16 +80,16 @@ export default memo(() => {
                 </Link>
             ),
         },
-        // {
-        //     key: "2",
-        //     label: (
-        //         <Link to="/">
-        //             <Icon name="group" width={16} height={16} /> Edit Profile
-        //         </Link>
-        //     ),
-        // },
         {
             key: "2",
+            label: (
+                <Link to="/dashboard/admin/manage-user">
+                    <Icon name="group" width={16} height={16} /> Manajemen User
+                </Link>
+            ),
+        },
+        {
+            key: "3",
             label: (
                 <Link onClick={onSignOut} >
                     <Icon name="setting" width={16} height={16} /> Logout

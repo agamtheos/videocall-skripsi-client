@@ -7,14 +7,14 @@ import Fallback from "../../components/Fallback";
 export default memo(({ match }) => {
     const defaultRoute = getDefaultRoute();
     return (
-        <Suspense fallback={<Fallback />}>
-            <Switch>
-                <Route
-                    path={`${match.url}dashboard`}
-                    component={lazy(() => import("./Dashboard"))}
-                />
-                {!!defaultRoute && <Redirect to={defaultRoute}/>}
-            </Switch>
-        </Suspense>
+    <Suspense fallback={<Fallback />}>
+        <Switch>
+            <Route
+                path={`${match.url}dashboard`}
+                component={lazy(() => import("./Dashboard"))}
+            />
+            {!!defaultRoute && <Redirect to={defaultRoute}/>}
+        </Switch>
+    </Suspense>
     );
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Space, Tooltip } from "antd";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
@@ -49,6 +49,32 @@ const VideoCallPage = () => {
         return c;
     };
 
+    const handleToggleCamLocalStream = () => {
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No local stream for user ");
+        }
+        const localStream = webRtcPeer.getLocalStreams()[0];
+        const videoTrack = localStream.getVideoTracks()[0];
+        videoTrack.enabled = !videoTrack.enabled;
+    };
+
+    const handleToggleCamRemoteStream = () => {
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No remote stream for user ");
+        }
+        const remoteStream = webRtcPeer.getRemoteStreams()[0];
+        const videoTrack = remoteStream.getVideoTracks()[0];
+        videoTrack.enabled = !videoTrack.enabled;
+    };
+
+    // useEffect(() => {
+    //     if (!onCam) {
+    //         handleToggleCamLocalStream();
+    //     }
+    // }, []);
+
     return (
         <Layout
             link={link}
@@ -80,6 +106,7 @@ const VideoCallPage = () => {
                         name={they}
                         isMuted={false}
                         isOnCam={true}
+                        // control={isControlled}
                     />
                 </Col>
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -90,6 +117,7 @@ const VideoCallPage = () => {
                         name={me}
                         isMuted={muted}
                         isOnCam={onCam}
+                        // control={}
                     />
                 </Col>
             </Row>

@@ -17,6 +17,10 @@ const collections = {
     AUTH_CHANGE_PASSWORD: 'auth/change-password',
     CLIENT_ONLINE: 'client/online',
     ADMIN_ONLINE: 'admin/online',
+    USER_LIST: 'users',
+    USER_UPDATE: 'users/{{id}}',
+    USER_DELETE: 'users/{{id}}',
+    USER_CREATE: 'users',
 }
 
 export const getCollection = (key, object) =>

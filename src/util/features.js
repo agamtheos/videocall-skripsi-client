@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const ROLE_ADMIN = 'admin';
 export const ROLE_CLIENT = 'client';
 
@@ -25,3 +27,9 @@ export const getDefaultRoute = () =>
 	const {defaultRoute} = PERMISSIONS.find(({role}) => role === activeRole) ?? {};
 	return defaultRoute ? defaultRoute : null;
 }
+
+export const RoleableComponent = ({children}) => (
+	<React.Fragment>
+		{getDefaultRoute() ? children : null}
+	</React.Fragment>
+);

@@ -58,6 +58,10 @@ export default memo(() => {
                         {
                             required: true,
                             message: 'Masukkan Username Anda!'
+                        },
+                        {
+                            pattern: /^[a-z0-9]+$/,
+                            message: 'Username hanya boleh huruf kecil dan angka tanpa spasi!',
                         }
                     ]}>
                         <Input
