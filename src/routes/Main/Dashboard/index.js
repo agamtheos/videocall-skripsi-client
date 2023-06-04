@@ -13,14 +13,14 @@ export default memo((props) => {
             <Switch>
                 {/* {roleable(DASHBOARD_ADMIN) && <Route path={`${match.url}/admin`} component={lazy(() => import("./Admin"))} />}
                 {roleable(DASHBOARD_CLIENT) && <Route path={`${match.url}/client`} component={lazy(() => import("./Client"))} />} */}
-                {/* <Route
+                <Route
                     path={`${match.url}/admin`}
                     component={lazy(() => import("./Admin"))}
-                /> */}
-                {/* <Route
+                />
+                <Route
                     path={`${match.url}/client`}
                     component={lazy(() => import("./Client"))}
-                /> */}
+                />
                 <Route
                     path={`${match.url}/profile`}
                     component={lazy(() => import("./Profile"))}
