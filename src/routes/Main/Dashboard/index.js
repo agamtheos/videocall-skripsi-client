@@ -25,7 +25,6 @@ export default memo((props) => {
                     path={`${match.url}/profile`}
                     component={lazy(() => import("./Profile"))}
                 />
-                {!!defaultRoute && <Redirect to={defaultRoute}/>}
                 <Route
                     path={`${match.url}/test1`}
                     component={lazy(() => import("./RoomPage"))}
@@ -34,6 +33,7 @@ export default memo((props) => {
                     path={`${match.url}/room`}
                     component={lazy(() => import("./VideoCallPage"))}
                 />
+                {!!defaultRoute && <Redirect to={defaultRoute}/>}
             </Switch>
             </Suspense>
     );

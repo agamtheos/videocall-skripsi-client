@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useParams, useHistory, Link} from "react-router-dom";
-import {Button, Card, Form, Input, Radio, Checkbox, Divider, Alert, notification, Select} from "antd";
+import {Button, Card, Form, Input, Radio, Divider, Alert, notification} from "antd";
 import {
 	LeftOutlined,
 	UserOutlined,

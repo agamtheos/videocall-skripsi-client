@@ -9,7 +9,7 @@ const WebRtcPeer = new WebRtcPeerClass()
 
 export const callResponse = (message) => {
     console.log('RENEEEJEJEJEJ')
-    if (message.response !== 'accepted') {
+    if (message.response === 'rejected') {
         Modal.error({
             title: "Panggilan Ditolak",
             icon: <Icon name="alert" width={24} height={24} />,
@@ -26,7 +26,22 @@ export const callResponse = (message) => {
                 window.location.reload();
             },
         });
-    } else {
+    } 
+
+    if (message.response === 'reject_incall') {
+        Modal.error({
+            title: "Panggilan Tidak Dapat Dilakukan",
+            icon: <Icon name="alert" width={24} height={24} />,
+            content: message.message,
+            centered: true,
+            width: 320,
+            okText: "Tutup",
+            onOk: () => {
+                stop(true);
+                window.location.reload();
+            },
+        })
+    }
         // set call state = in call
         // const webRtcPeer = WebRtcPeer.getPeers()
         // console.log(webRtcPeer)
@@ -44,7 +59,6 @@ export const callResponse = (message) => {
         // webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
         //     if (error) return console.error(error);
         // });
-    }
 }
 
 export const registerResponse = async (message) => {
