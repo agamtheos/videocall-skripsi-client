@@ -139,6 +139,7 @@ export default memo(() => {
                     onCancel: () => {
                         stop();
                         rejectCall(parsedMessage);
+                        window.location.reload();
                     }
                 });
                 break;
