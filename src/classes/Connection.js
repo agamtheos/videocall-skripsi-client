@@ -111,36 +111,31 @@ export const call = async (from, to) => {
     // create offer
     const offer = await peer.createOffer();
 
-    const ok = await new Promise((resolve, reject) => {
-        let message = {
-            id : 'call',
-            from : from, // user yang melakukan panggilan
-            to : to, // user yang menerima panggilan
-            sdpOffer : offer,
-            state: 'req_calling'
-        };
-        sendMessage(message);
-        resolve(true);
-    })
-
+    let message = {
+        id : 'call',
+        from : from, // user yang melakukan panggilan
+        to : to, // user yang menerima panggilan
+        sdpOffer : offer,
+        state: 'req_calling'
+    };
+    sendMessage(message);
+    
     await peer.setLocalDescription(offer);
     WebRtcPeer.addPeer(peer)
 
     // set delay 1s
-    if (ok) {
-        peer.onicecandidate = function (event) {
-            if (event.candidate) {
-                const message = {
-                    id : 'onIceCandidate',
-                    candidate : event.candidate,
-                    to : to,
-                    from: from
-                }
-                sendMessage(message);
-            }
-        }
-    }  
     
+    peer.onicecandidate = function (event) {
+        if (event.candidate) {
+            const message = {
+                id : 'onIceCandidate',
+                candidate : event.candidate,
+                to : to,
+                from: from
+            }
+            sendMessage(message);
+        }
+    }
 
     // get to know when connected to peer
     // peer.onconnectionstatechange = function (event) {
