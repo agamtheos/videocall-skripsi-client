@@ -148,6 +148,11 @@ export const call = async (from, to) => {
             }
             sendMessage(message)
         }
+
+        if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
+            peer.close();
+            console.log('Connection closed, because of ' + peer.connectionState);
+        }
     }
 
     // peer.onicegatheringstatechange = function (event) {
@@ -240,6 +245,11 @@ export const incomingCall = async (message) => {
                 to: localStorage.getItem('they')
             }
             sendMessage(message)
+        }
+
+        if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
+            peer.close();
+            console.log('Connection closed, because of ' + peer.connectionState);
         }
     }
 
