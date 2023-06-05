@@ -320,6 +320,7 @@ export const stop = (message) => {
 
     if (webRtcPeer) {
         WebRtcPeer.removePeer();
+        webRtcPeer.close();
         if (!message) {
             const message = {
                 id: 'stop',
