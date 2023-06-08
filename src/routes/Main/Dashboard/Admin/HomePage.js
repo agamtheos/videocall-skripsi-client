@@ -201,7 +201,46 @@ export default memo(() => {
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
                         WebRtcPeer.addPeer(peer);
 
-                        peer.addEventListener('iceconnectionstatechange', iceConnectionStateChangeHandler)
+                        peer.oniceconnectionstatechange = () => {
+                            console.log('iceConnectionStateChangeHandler')
+                            console.log(`STATE: ${peer.iceConnectionState}`)
+                            switch (peer.iceConnectionState) {
+                                case 'checking':
+                                    setConnectionState(CONNECTION_STATE.NEGOTIATING)
+                                    setStreamableConnection(false)
+                                break
+                                case 'disconnected':
+                                    // this.peer.restartIce()
+                                    // this.closePeer()
+                            
+                                    setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                                    setStreamableConnection(false)
+                                    peer.close()
+                                break
+                                case 'failed':
+                                    peer.close()
+                            
+                                    setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                                    setStreamableConnection(false)
+                                break
+                                case 'closed':
+                                    peer.close()
+                                    peer = null
+                            
+                                    setConnectionState(CONNECTION_STATE.CLOSED)
+                                    setStreamableConnection(false)
+                                break
+                                case 'connected':
+                                case 'completed':
+                                    setConnectionState(CONNECTION_STATE.CONNECTED)
+                                    setOfferTimeout(false)
+                                    setStreamableConnection(true)
+                                    navigateTo();
+                                break
+                                default:
+                                    setStreamableConnection(false)
+                            }
+                        }
                         
                         const response = {
                             id: 'incomingCallResponse',
@@ -210,7 +249,7 @@ export default memo(() => {
                             message: 'accepted'
                         }
                         ws.send(JSON.stringify(response));
-                        stop();
+                        // stop();
                         setTimeout(() => {
                             incomingCall(parsedMessage);
                         }, 1000);
@@ -229,10 +268,14 @@ export default memo(() => {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 WebRtcPeer.addPeer(peer);
-                peer.addEventListener('negotiationneeded', negotiationNeededHandler);
-                peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
-                peer.addEventListener('iceconnectionstatechange', iceConnectionStateChangeHandler)
-                peer.addEventListener('icecandidate', iceCandidateHandler)
+                peer.onnegotiationneeded = async () => negotiationNeededHandler();
+                peer.onicegatheringstatechange = () => iceGatheringStateChangeHandler();
+                peer.oniceconnectionstatechange = () => iceConnectionStateChangeHandler();
+                peer.onicecandidate = ({candidate}) => iceCandidateHandler({candidate});
+                // peer.addEventListener('negotiationneeded', negotiationNeededHandler);
+                // peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
+                // peer.addEventListener('iceconnectionstatechange', iceConnectionStateChangeHandler)
+                // peer.addEventListener('icecandidate', iceCandidateHandler)
 
                 async function negotiationNeededHandler() {
                     try {
@@ -244,7 +287,7 @@ export default memo(() => {
                             peer.setLocalDescription(offer),
                         ])
                         console.log('Local Description Added: Offer')
-                        ws.send(JSON.stringify({ id: 'description', description: peer.localDescription, from: this.username, to: localStorage.getItem('they') }))
+                        ws.send(JSON.stringify({ id: 'description', description: peer.localDescription, from: localStorage.getItem('username'), to: localStorage.getItem('they') }))
                         console.log('Offer sended')
             
                         setLastSdpOffer(peer.localDescription)
@@ -255,7 +298,7 @@ export default memo(() => {
                                 setMakingOffer(false)
                                 setOfferTimeout(true)
                             }
-                        }, this.offerTimeoutValue)
+                        }, OfferTimeoutValue)
                         setOfferTimer(offerTimer)
                     } catch (error) {
                         console.log(error)
@@ -342,8 +385,10 @@ export default memo(() => {
                         }
                     }
             
-                    peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
-                    peer.addEventListener('icecandidate', iceCandidateHandler)
+                    peer.onicegatheringstatechange = iceGatheringStateChangeHandler
+                    peer.onicecandidate = ({candidate}) => iceCandidateHandler({candidate})
+                    // peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
+                    // peer.addEventListener('icecandidate', iceCandidateHandler)
             
                     setTimeout(() => {
                         if (timeoutObserver.resolved) {
@@ -393,18 +438,26 @@ export default memo(() => {
                 }
 
                 if (offerCollision) {
-                    await Promise.all([
-                        peer.setLocalDescription({ type: 'rollback' }),
-                        peer.setRemoteDescription(parsedMessage.description),
-                    ])
+                    try {
+                        await Promise.all([
+                            peer.setLocalDescription({ type: 'rollback' }),
+                            peer.setRemoteDescription(parsedMessage.description),
+                        ])
+                    } catch (error) {
+                        console.log(error)
+                    }
                 } else {
-                    await peer.setRemoteDescription(parsedMessage.description)
+                    try {
+                        await peer.setRemoteDescription(parsedMessage.description)
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
                 console.log('Remote Description Added: ' + parsedMessage.description.type)
 
                 if (parsedMessage.description.type === 'offer') {
                     const answer = await peer.createAnswer()
-                    const iceGatheringPromise = completeIceGathering()
+                    const iceGatheringPromise = completeIceGathering
                     console.log('Trying to Add Local Description and find ice candidates')
 
                     await Promise.all([
