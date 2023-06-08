@@ -32,7 +32,7 @@ export const callResponse = (message) => {
         Modal.error({
             title: "Panggilan Tidak Dapat Dilakukan",
             icon: <Icon name="alert" width={24} height={24} />,
-            content: message.message,
+            content: 'Panggilan tidak dapat dilakukan karena user yang Anda panggil sedang dalam panggilan lain.',
             centered: true,
             width: 320,
             okText: "Tutup",
