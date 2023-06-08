@@ -174,6 +174,7 @@ export default memo(() => {
             break;  
             case 'incomingCall':
                 const state = localStorage.getItem('state');
+                console.log('State: ' + state)
                 if (state === 'IN_CALL') {
                     // let's reject the call and stay in current call
                     const response = {
@@ -264,6 +265,7 @@ export default memo(() => {
                 });
             break;
             case 'startCommunication':
+                localStorage.setItem('state', 'IN_CALL');
                 WebRtcPeer.removePeer();
                 peer = new RTCPeerConnection();
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
