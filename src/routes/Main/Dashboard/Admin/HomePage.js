@@ -196,7 +196,7 @@ export default memo(() => {
                     cancelText: "Tolak",
                     onOk: async () => {
                         stop();
-                        peer = new RTCPeerConnection(RTCConfig);
+                        peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
                         WebRtcPeer.addPeer(peer);
@@ -264,7 +264,7 @@ export default memo(() => {
             break;
             case 'startCommunication':
                 WebRtcPeer.removePeer();
-                peer = new RTCPeerConnection(RTCConfig);
+                peer = new RTCPeerConnection();
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 WebRtcPeer.addPeer(peer);
