@@ -196,6 +196,7 @@ export default memo(() => {
                     cancelText: "Tolak",
                     onOk: async () => {
                         stop();
+                        localStorage.setItem('state', 'IN_CALL');
                         peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));

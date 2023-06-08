@@ -64,6 +64,7 @@ export const callResponse = (message) => {
 export const registerResponse = async (message) => {
     if (message.response === 'accepted') {
         console.log('User ' + message.name + ' registered successfully');
+        localStorage.setItem('state', 'REGISTERED');
     } else {
         var errorMessage = message.message ? message.message
                 : 'Unknown reason for register rejection.';
