@@ -12,31 +12,36 @@ export const CONNECTION_STATE = {
 }
 
 export const RTCConfig = {
-        iceServers: [
-            {
-            urls: "stun:a.relay.metered.ca:80",
-            },
-            {
-            urls: "turn:a.relay.metered.ca:80",
-            username: "2edbf539c73a90baeda19419",
-            credential: "3+LaQxMdu6hRORbm",
-            },
-            {
-            urls: "turn:a.relay.metered.ca:80?transport=tcp",
-            username: "2edbf539c73a90baeda19419",
-            credential: "3+LaQxMdu6hRORbm",
-            },
-            {
-            urls: "turn:a.relay.metered.ca:443",
-            username: "2edbf539c73a90baeda19419",
-            credential: "3+LaQxMdu6hRORbm",
-            },
-            {
-            urls: "turn:a.relay.metered.ca:443?transport=tcp",
-            username: "2edbf539c73a90baeda19419",
-            credential: "3+LaQxMdu6hRORbm",
-            },
-        ],
+    iceServers: [
+        {
+            urls: "stun:stun.l.google.com:19302"
+        }
+    ]
+        // iceServers: [
+        //     {
+        //     urls: "stun:a.relay.metered.ca:80",
+        //     },
+        //     {
+        //     urls: "turn:a.relay.metered.ca:80",
+        //     username: "2edbf539c73a90baeda19419",
+        //     credential: "3+LaQxMdu6hRORbm",
+        //     },
+        //     {
+        //     urls: "turn:a.relay.metered.ca:80?transport=tcp",
+        //     username: "2edbf539c73a90baeda19419",
+        //     credential: "3+LaQxMdu6hRORbm",
+        //     },
+        //     {
+        //     urls: "turn:a.relay.metered.ca:443",
+        //     username: "2edbf539c73a90baeda19419",
+        //     credential: "3+LaQxMdu6hRORbm",
+        //     },
+        //     {
+        //     urls: "turn:a.relay.metered.ca:443?transport=tcp",
+        //     username: "2edbf539c73a90baeda19419",
+        //     credential: "3+LaQxMdu6hRORbm",
+        //     },
+        // ],
     }
 // State Call
 

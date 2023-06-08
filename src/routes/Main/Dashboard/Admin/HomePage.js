@@ -196,7 +196,7 @@ export default memo(() => {
                     cancelText: "Tolak",
                     onOk: async () => {
                         stop();
-                        peer = new RTCPeerConnection();
+                        peer = new RTCPeerConnection(RTCConfig);
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
                         WebRtcPeer.addPeer(peer);
@@ -264,7 +264,7 @@ export default memo(() => {
             break;
             case 'startCommunication':
                 WebRtcPeer.removePeer();
-                peer = new RTCPeerConnection();
+                peer = new RTCPeerConnection(RTCConfig);
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 WebRtcPeer.addPeer(peer);
@@ -476,7 +476,7 @@ export default memo(() => {
                 const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
                 localStorage.removeItem('me')
                 localStorage.removeItem('they')
-            window.location.replace(link);
+                window.location.replace(link);
                 break;
             case 'startCandidates':
                 startCandidates(parsedMessage);
