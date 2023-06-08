@@ -14,27 +14,27 @@ export const CONNECTION_STATE = {
 export const RTCConfig = {
         iceServers: [
             {
-                urls: "stun:stun1.l.google.com:19302"
+            urls: "stun:a.relay.metered.ca:80",
             },
             {
-                urls: "turn:a.relay.metered.ca:80",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
+            urls: "turn:a.relay.metered.ca:80",
+            username: "2edbf539c73a90baeda19419",
+            credential: "3+LaQxMdu6hRORbm",
             },
             {
-                urls: "turn:a.relay.metered.ca:80?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
+            urls: "turn:a.relay.metered.ca:80?transport=tcp",
+            username: "2edbf539c73a90baeda19419",
+            credential: "3+LaQxMdu6hRORbm",
             },
             {
-                urls: "turn:a.relay.metered.ca:443",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
+            urls: "turn:a.relay.metered.ca:443",
+            username: "2edbf539c73a90baeda19419",
+            credential: "3+LaQxMdu6hRORbm",
             },
             {
-                urls: "turn:a.relay.metered.ca:443?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
+            urls: "turn:a.relay.metered.ca:443?transport=tcp",
+            username: "2edbf539c73a90baeda19419",
+            credential: "3+LaQxMdu6hRORbm",
             },
         ],
     }
