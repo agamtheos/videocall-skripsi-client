@@ -3,6 +3,46 @@ export const TOGGLE_COLLAPSED_NAV = 'TOGGLE_COLLAPSE_MENU';
 export const WINDOW_WIDTH = 'WINDOW-WIDTH';
 export const SWITCH_LANGUAGE = 'SWITCH-LANGUAGE';
 
+export const CONNECTION_STATE = {
+    NEW: 'NEW',
+    CONNECTED: 'CONNECTED',
+    DISCONNECTED: 'DISCONNECTED',
+    NEGOTIATING: 'NEGOTIATING',
+    CLOSED: 'CLOSED'
+}
+
+export const RTCConfig = {
+        iceServers: [
+            {
+                urls: "stun:stun1.l.google.com:19302"
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:80?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+            {
+                urls: "turn:a.relay.metered.ca:443?transport=tcp",
+                username: "417e29407130059049b7c92e",
+                credential: "4CZ5bkgLqE0QjdRU",
+            },
+        ],
+    }
+// State Call
+
+export const REGISTERED = 'REGISTERED';
+export const IN_CALL = 'IN_CALL';
+
 //Contact Module const
 export const FETCH_START = 'fetch_start';
 export const FETCH_SUCCESS = 'fetch_success';

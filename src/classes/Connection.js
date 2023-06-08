@@ -73,91 +73,82 @@ export const registerResponse = async (message) => {
 }
 
 export const call = async (from, to) => {
-    let configuration = {
-        iceServers: [
-            {
-                urls: "stun:stun1.l.google.com:19302"
-            },
-            {
-                urls: "turn:a.relay.metered.ca:80",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:80?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:443",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:443?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-        ],
-    };
-
-    const peer = new RTCPeerConnection(configuration);
-    // const peer = new RTCPeerConnection();
-
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    // peer.addTrack(stream.getTracks()[0], stream)
-    await peer.addStream(stream)
-
-    // create offer
-    const offer = await peer.createOffer();
-
-    let message = {
+    const message = {
         id : 'call',
         from : from, // user yang melakukan panggilan
         to : to, // user yang menerima panggilan
-        sdpOffer : offer,
-        state: 'req_calling'
-    };
+        state: 'REQ_CALLING'
+    }
     sendMessage(message);
+
+    // let configuration = {
+    //     iceServers: [
+    //         {
+    //             urls: "stun:stun1.l.google.com:19302"
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:80",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:80?transport=tcp",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:443",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:443?transport=tcp",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //     ],
+    // };
+
+    // const peer = new RTCPeerConnection(configuration);
+    // // const peer = new RTCPeerConnection();
+
+    // const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    // // peer.addTrack(stream.getTracks()[0], stream)
+    // await peer.addStream(stream)
+
+    // // create offer
+    // const offer = await peer.createOffer();
+
+    // let message = {
+    //     id : 'call',
+    //     from : from, // user yang melakukan panggilan
+    //     to : to, // user yang menerima panggilan
+    //     sdpOffer : offer,
+    //     state: 'req_calling'
+    // };
+    // sendMessage(message);
     
-    await peer.setLocalDescription(offer);
-    WebRtcPeer.addPeer(peer)
+    // await peer.setLocalDescription(offer);
+    // WebRtcPeer.addPeer(peer)
 
-    // set delay 1s
+    // // set delay 1s
     
-    peer.onicecandidate = function (event) {
-        if (event.candidate) {
-            const message = {
-                id : 'onIceCandidate',
-                candidate : event.candidate,
-                to : to,
-                from: from
-            }
-            sendMessage(message);
-        }
-    }
+    // peer.onicecandidate = function (event) {
+    //     if (event.candidate) {
+    //         const message = {
+    //             id : 'onIceCandidate',
+    //             candidate : event.candidate,
+    //             to : to,
+    //             from: from
+    //         }
+    //         sendMessage(message);
+    //     }
+    // }
 
-    // get to know when connected to peer
-    peer.onconnectionstatechange = function (event) {
-        console.log('masuk sono')
-        if (peer.connectionState === 'connected') {
-            const message = {
-                id: 'peerConnected',
-                from: localStorage.getItem('me'),
-                to: localStorage.getItem('they')
-            }
-            sendMessage(message)
-        }
-
-        if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
-            peer.close();
-            console.log('Connection closed, because of ' + peer.connectionState);
-        }
-    }
-
-    // peer.onicegatheringstatechange = function (event) {
+    // // get to know when connected to peer
+    // peer.onconnectionstatechange = function (event) {
     //     console.log('masuk sono')
-    //     if (peer.iceGatheringState === 'complete') {
+    //     if (peer.connectionState === 'connected') {
     //         const message = {
     //             id: 'peerConnected',
     //             from: localStorage.getItem('me'),
@@ -165,7 +156,24 @@ export const call = async (from, to) => {
     //         }
     //         sendMessage(message)
     //     }
+
+    //     if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
+    //         peer.close();
+    //         console.log('Connection closed, because of ' + peer.connectionState);
+    //     }
     // }
+
+    // // peer.onicegatheringstatechange = function (event) {
+    // //     console.log('masuk sono')
+    // //     if (peer.iceGatheringState === 'complete') {
+    // //         const message = {
+    // //             id: 'peerConnected',
+    // //             from: localStorage.getItem('me'),
+    // //             to: localStorage.getItem('they')
+    // //         }
+    // //         sendMessage(message)
+    // //     }
+    // // }
 
 }
 
@@ -179,83 +187,74 @@ export const register = (name) => {
 }
 
 export const incomingCall = async (message) => {
-    const configuration = {
-        iceServers: [
-            {
-                urls: "stun:stun1.l.google.com:19302"
-            },
-            {
-                urls: "turn:a.relay.metered.ca:80",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:80?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:443",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-            {
-                urls: "turn:a.relay.metered.ca:443?transport=tcp",
-                username: "417e29407130059049b7c92e",
-                credential: "4CZ5bkgLqE0QjdRU",
-            },
-        ],
-    }
+    const peer = WebRtcPeer.getPeers()
+    const  stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 
-    // create peer using RTC
-    const peer = new RTCPeerConnection(configuration);
-    // const peer = new RTCPeerConnection();
+    stream.getTracks().forEach(track => {
+        // add all tracks to peer
+        peer.addTrack(track, stream)
+    })
 
-    peer.setRemoteDescription(new RTCSessionDescription(message.sdpOffer))
+    // const configuration = {
+    //     iceServers: [
+    //         {
+    //             urls: "stun:stun1.l.google.com:19302"
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:80",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:80?transport=tcp",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:443",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //         {
+    //             urls: "turn:a.relay.metered.ca:443?transport=tcp",
+    //             username: "417e29407130059049b7c92e",
+    //             credential: "4CZ5bkgLqE0QjdRU",
+    //         },
+    //     ],
+    // }
 
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-    // peer.addTrack(stream.getTracks()[0], stream)
-    await peer.addStream(stream)
+    // // create peer using RTC
+    // const peer = new RTCPeerConnection(configuration);
+    // // const peer = new RTCPeerConnection();
 
-    const answer = await peer.createAnswer();
+    // peer.setRemoteDescription(new RTCSessionDescription(message.sdpOffer))
 
-    await peer.setLocalDescription(answer);
+    // const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    // // peer.addTrack(stream.getTracks()[0], stream)
+    // await peer.addStream(stream)
 
-    WebRtcPeer.addPeer(peer)
+    // const answer = await peer.createAnswer();
 
-    peer.onicecandidate = function (event) {
-        if (event.candidate) {
-            const msg = {
-                id : 'onIceCandidate',
-                candidate : event.candidate,
-                to : message.from,
-                from: message.to
-            }
-            sendMessage(msg);
-        }
-    }
+    // await peer.setLocalDescription(answer);
 
-    // get to know when connected to peer
-    peer.onconnectionstatechange = function (event) {
-        console.log('masuk sono')
-        if (peer.connectionState === 'connected') {
-            const message = {
-                id: 'peerConnected',
-                from: localStorage.getItem('me'),
-                to: localStorage.getItem('they')
-            }
-            sendMessage(message)
-        }
+    // WebRtcPeer.addPeer(peer)
 
-        if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
-            peer.close();
-            console.log('Connection closed, because of ' + peer.connectionState);
-        }
-    }
+    // peer.onicecandidate = function (event) {
+    //     if (event.candidate) {
+    //         const msg = {
+    //             id : 'onIceCandidate',
+    //             candidate : event.candidate,
+    //             to : message.from,
+    //             from: message.to
+    //         }
+    //         sendMessage(msg);
+    //     }
+    // }
 
-    // peer.onicegatheringstatechange = function (event) {
+    // // get to know when connected to peer
+    // peer.onconnectionstatechange = function (event) {
     //     console.log('masuk sono')
-    //     if (peer.iceGatheringState === 'complete') {
+    //     if (peer.connectionState === 'connected') {
     //         const message = {
     //             id: 'peerConnected',
     //             from: localStorage.getItem('me'),
@@ -263,16 +262,33 @@ export const incomingCall = async (message) => {
     //         }
     //         sendMessage(message)
     //     }
+
+    //     if (peer.connectionState === 'disconnected' || peer.connectionState === 'failed' || peer.connectionState === 'closed') {
+    //         peer.close();
+    //         console.log('Connection closed, because of ' + peer.connectionState);
+    //     }
     // }
 
-    let response = {
-        id: 'incomingCallResponse',
-        from: message.from,
-        callResponse: 'accept',
-        sdpOffer: answer,
-        state: 'acc_calling'
-    }
-    sendMessage(response);
+    // // peer.onicegatheringstatechange = function (event) {
+    // //     console.log('masuk sono')
+    // //     if (peer.iceGatheringState === 'complete') {
+    // //         const message = {
+    // //             id: 'peerConnected',
+    // //             from: localStorage.getItem('me'),
+    // //             to: localStorage.getItem('they')
+    // //         }
+    // //         sendMessage(message)
+    // //     }
+    // // }
+
+    // let response = {
+    //     id: 'incomingCallResponse',
+    //     from: message.from,
+    //     callResponse: 'accept',
+    //     sdpOffer: answer,
+    //     state: 'acc_calling'
+    // }
+    // sendMessage(response);
     localStorage.setItem('they', message.from)
 }
 
@@ -288,8 +304,7 @@ export const rejectCall = (message) => {
 }
 
 export const startCommunication = (message) => {
-    const webRtcPeer = WebRtcPeer.getPeers()
-    webRtcPeer.setRemoteDescription(new RTCSessionDescription(message.sdpAnswer))
+    
 }
 
 export const startCandidates = (message) => {
