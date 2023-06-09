@@ -201,6 +201,7 @@ export default memo(() => {
                         peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
+                        peer['localStream'] = stream;
                         WebRtcPeer.addPeer(peer);
 
                         peer.oniceconnectionstatechange = () => {
@@ -270,6 +271,7 @@ export default memo(() => {
                 peer = new RTCPeerConnection();
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
+                peer['localStream'] = stream;
                 WebRtcPeer.addPeer(peer);
                 peer.onnegotiationneeded = async () => negotiationNeededHandler();
                 peer.onicegatheringstatechange = () => iceGatheringStateChangeHandler();
