@@ -29,21 +29,25 @@ const VideoCallPage = () => {
             return console.log("No remote stream for user ");
         }
         console.log('STREAMM REMOTEEEE')
-        let stream = null;
-        try {
-            stream = webRtcPeer.getRemoteStreams();
-            console.log('using old method')
-            console.log(stream)
-        } catch (e) {
-            console.log('using new method')
-            stream = new MediaStream();
-            webRtcPeer.getReceivers().forEach(function(receiver) {
-                console.log('add track')
-                stream.addTrack(receiver.track);
-            })
-            console.log(stream)
-            return [stream]
-        }
+        let stream = new MediaStream();
+        webRtcPeer.getReceivers().forEach(function(receiver) {
+            console.log('add track')
+            stream.addTrack(receiver.track);
+        });
+        // try {
+        //     stream = webRtcPeer.getRemoteStreams();
+        //     console.log('using old method')
+        //     console.log(stream)
+        // } catch (e) {
+        //     console.log('using new method')
+        //     stream = new MediaStream();
+        //     webRtcPeer.getReceivers().forEach(function(receiver) {
+        //         console.log('add track')
+        //         stream.addTrack(receiver.track);
+        //     })
+        //     console.log(stream)
+        //     return [stream]
+        // }
         return stream;
     };
 
@@ -52,21 +56,25 @@ const VideoCallPage = () => {
         if (!webRtcPeer) {
             return console.log("No local stream for user ");
         }
-        let stream = null;
-        try {
-            stream = webRtcPeer.getLocalStreams();
-            console.log('using old method')
-            console.log(stream)
-        } catch (e) {
-            console.log('using new method')
-            stream = new MediaStream();
-            webRtcPeer.getSenders().forEach(function(sender) {
-                console.log('add track')
-                stream.addTrack(sender.track);
-            });
-            console.log(stream)
-            return [stream];
-        }
+        let stream = new MediaStream();
+        webRtcPeer.getSenders().forEach(function(sender) {
+            console.log('add track')
+            stream.addTrack(sender.track);
+        });
+        // try {
+        //     stream = webRtcPeer.getLocalStreams();
+        //     console.log('using old method')
+        //     console.log(stream)
+        // } catch (e) {
+        //     console.log('using new method')
+        //     stream = new MediaStream();
+        //     webRtcPeer.getSenders().forEach(function(sender) {
+        //         console.log('add track')
+        //         stream.addTrack(sender.track);
+        //     });
+        //     console.log(stream)
+        //     return [stream];
+        // }
         return stream;
     };
 
