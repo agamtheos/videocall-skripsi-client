@@ -30,12 +30,8 @@ const VideoCallPage = () => {
             return console.log("No remote stream for user ");
         }
         let remoteStream = null;
-        webRtcPeer.ontrack = function (event) {
-            console.log('Dapat remote stream', event.streams[0])
-            remoteStream = event.streams[0];
-        };
         console.log('dsini')
-        console.log(remoteStream)
+        console.log(webRtcPeer.getSenders())
         console.log('STREAMM REMOTEEEE')
         console.log(webRtcPeer.getRemoteStreams())
         return webRtcPeer.getRemoteStreams();
