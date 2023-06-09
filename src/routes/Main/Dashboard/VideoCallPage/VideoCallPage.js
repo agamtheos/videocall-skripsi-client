@@ -32,6 +32,7 @@ const VideoCallPage = () => {
         let remoteStream = null;
         console.log('dsini')
         console.log(webRtcPeer.getSenders())
+        console.log(webRtcPeer.getTransceivers())
         console.log('STREAMM REMOTEEEE')
         console.log(webRtcPeer.getRemoteStreams())
         return webRtcPeer.getRemoteStreams();
@@ -49,6 +50,7 @@ const VideoCallPage = () => {
         console.log('STREAMM LOCAL')
         console.log(webRtcPeer.localStream)
         console.log('amannn')
+        return webRtcPeer.localStream;
         const c = webRtcPeer.getLocalStreams();
         console.log("HUEHUE");
         console.log(c);
