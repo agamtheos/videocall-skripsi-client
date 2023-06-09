@@ -35,24 +35,25 @@ const VideoCallPage = () => {
             console.log('using old method')
             console.log(stream)
         } catch (e) {
-            await Promise.all([
-                stream = new MediaStream(),
+            console.log('using new method')
+            let stream = function() {
+                let stream = null;
                 webRtcPeer.getReceivers().forEach(function(receiver) {
                     stream.addTrack(receiver.track);
-                }),
-            ]);
-            console.log('using new method')
-            
+                })
+                return [stream];
+            }
+            // stream = new MediaStream();
             // webRtcPeer.getReceivers().forEach(function(receiver) {
             //     stream.addTrack(receiver.track);
             // })
-            console.log(stream)
-            return [stream]
+            // console.log(stream)
+            return stream;
         }
         return stream;
     };
 
-    const findLocalUserStream = async() => {
+    const findLocalUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
             return console.log("No local stream for user ");
@@ -63,19 +64,20 @@ const VideoCallPage = () => {
             console.log('using old method')
             console.log(stream)
         } catch (error) {
-            await Promise.all([
-                stream = new MediaStream(),
+            console.log('using new method')
+            let stream = function() {
+                let stream = null;
                 webRtcPeer.getSenders().forEach(function(sender) {
                     stream.addTrack(sender.track);
-                })
-            ]);
-            console.log('using new method')
+                });
+                return [stream];
+            }
             // stream = new MediaStream();
             // webRtcPeer.getSenders().forEach(function(sender) {
             //     stream.addTrack(sender.track);
             // });
-            console.log(stream)
-            return [stream];
+            // console.log(stream)
+            return stream;
         }
         return stream;
     };
