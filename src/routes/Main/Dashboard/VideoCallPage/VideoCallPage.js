@@ -36,13 +36,13 @@ const VideoCallPage = () => {
             console.log(stream)
         } catch (e) {
             console.log('using new method')
-            new MediaStream().then((stream) => {
-                webRtcPeer.getReceivers().forEach(function(receiver) {
-                    stream.addTrack(receiver.track);
-                })
-                console.log(stream)
-                return [stream]
-            });
+            stream = new MediaStream();
+            webRtcPeer.getReceivers().forEach(function(receiver) {
+                console.log('add track')
+                stream.addTrack(receiver.track);
+            })
+            console.log(stream)
+            return [stream]
         }
         return stream;
     };
@@ -57,16 +57,15 @@ const VideoCallPage = () => {
             stream = webRtcPeer.getLocalStreams();
             console.log('using old method')
             console.log(stream)
-        } catch (error) {
+        } catch (e) {
             console.log('using new method')
-            new MediaStream().then((stream) => {
-                webRtcPeer.getSenders().forEach(function(sender) {
-                    stream.addTrack(sender.track);
-                })
-                console.log(stream)
-                return [stream]
+            stream = new MediaStream();
+            webRtcPeer.getSenders().forEach(function(sender) {
+                console.log('add track')
+                stream.addTrack(sender.track);
             });
-            // return [stream];
+            console.log(stream)
+            return [stream];
         }
         return stream;
     };
