@@ -23,7 +23,7 @@ const VideoCallPage = () => {
     const me = localStorage.getItem("me");
     const they = localStorage.getItem("they");
 
-    const findRemoteUserStream = async() => {
+    const findRemoteUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
             return console.log("No remote stream for user ");
@@ -36,19 +36,13 @@ const VideoCallPage = () => {
             console.log(stream)
         } catch (e) {
             console.log('using new method')
-            let stream = function() {
-                let stream = null;
+            new MediaStream().then((stream) => {
                 webRtcPeer.getReceivers().forEach(function(receiver) {
                     stream.addTrack(receiver.track);
                 })
-                return [stream];
-            }
-            // stream = new MediaStream();
-            // webRtcPeer.getReceivers().forEach(function(receiver) {
-            //     stream.addTrack(receiver.track);
-            // })
-            // console.log(stream)
-            return stream;
+                console.log(stream)
+                return [stream]
+            });
         }
         return stream;
     };
@@ -65,19 +59,14 @@ const VideoCallPage = () => {
             console.log(stream)
         } catch (error) {
             console.log('using new method')
-            let stream = function() {
-                let stream = null;
+            new MediaStream().then((stream) => {
                 webRtcPeer.getSenders().forEach(function(sender) {
                     stream.addTrack(sender.track);
-                });
-                return [stream];
-            }
-            // stream = new MediaStream();
-            // webRtcPeer.getSenders().forEach(function(sender) {
-            //     stream.addTrack(sender.track);
-            // });
-            // console.log(stream)
-            return stream;
+                })
+                console.log(stream)
+                return [stream]
+            });
+            // return [stream];
         }
         return stream;
     };
