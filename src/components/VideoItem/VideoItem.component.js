@@ -11,7 +11,7 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam, control })
         if (stream) {
             console.log('RENEEE')
             console.log(stream)
-            videoRef.current.srcObject = stream[0]
+            videoRef.current.srcObject = stream[0] ? stream[0] : stream;
             console.log(videoRef.current.srcObject)
             // videoRef.current.srcObject = stream;
             // videoRef.current.srcObject.getAudioTracks()[0].enabled = true;
