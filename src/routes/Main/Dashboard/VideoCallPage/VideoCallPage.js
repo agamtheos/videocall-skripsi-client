@@ -25,36 +25,47 @@ const VideoCallPage = () => {
 
     const findRemoteUserStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
-        console.log('webRtcPeer', webRtcPeer)
         if (!webRtcPeer) {
             return console.log("No remote stream for user ");
         }
-        let remoteStream = null;
-        console.log('dsini')
-        console.log(webRtcPeer.getSenders())
-        console.log(webRtcPeer.getTransceivers())
         console.log('STREAMM REMOTEEEE')
-        console.log(webRtcPeer.getRemoteStreams())
-        return webRtcPeer.getRemoteStreams();
+        let stream = null;
+        try {
+            stream = webRtcPeer.getRemoteStreams();
+            console.log('using old method')
+            console.log(stream)
+        } catch (e) {
+            console.log('using new method')
+            stream = new MediaStream();
+            webRtcPeer.getReceivers().forEach(function(receiver) {
+                stream.addTrack(receiver.track);
+            })
+            console.log(stream)
+            return [stream]
+        }
+        return stream;
     };
 
     const findLocalUserStream = () => {
-        const wb = WebRtcPeer.getPeers();
-        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
-        console.log(wb);
-        console.log("HAHAHAHHAHAHAHAHAHAHAHAHAHA");
         const webRtcPeer = WebRtcPeer.getPeers();
         if (!webRtcPeer) {
             return console.log("No local stream for user ");
         }
-        console.log('STREAMM LOCAL')
-        console.log(webRtcPeer.localStream)
-        console.log('amannn')
-        return webRtcPeer.localStream;
-        const c = webRtcPeer.getLocalStreams();
-        console.log("HUEHUE");
-        console.log(c);
-        return c;
+        let stream = null;
+        try {
+            stream = webRtcPeer.getLocalStreams();
+            console.log('using old method')
+            console.log(stream)
+        } catch (error) {
+            console.log('using new method')
+            stream = new MediaStream();
+            webRtcPeer.getSenders().forEach(function(sender) {
+                stream.addTrack(sender.track);
+            });
+            console.log(stream)
+            return [stream];
+        }
+        return stream;
     };
 
     const handleToggleCamLocalStream = () => {
