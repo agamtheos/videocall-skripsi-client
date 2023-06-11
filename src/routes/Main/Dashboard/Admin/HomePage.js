@@ -109,7 +109,7 @@ export default memo(() => {
             cancelText: 'Batal',
             onOk: () => {
                 dispatch(userSignOut(username));
-                window.location.replace = '/auth/login';
+                window.location.href = '/auth/login';
             },
             onCancel: () => {}
         });
