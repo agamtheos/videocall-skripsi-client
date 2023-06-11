@@ -182,7 +182,8 @@ export const register = (name) => {
     var message = {
         id : 'register',
         name : name,
-        state: 'registered'
+        state: 'registered',
+        role: localStorage.getItem('role')
     };
     sendMessage(message);
 }

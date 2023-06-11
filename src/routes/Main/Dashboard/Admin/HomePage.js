@@ -88,13 +88,6 @@ export default memo(() => {
 
     let peer = null;
 
-    const fetchUserData = () => {
-        dispatch(getAllClientsOnline())
-        .then((res) => {
-            setUsers(res)
-        })
-    }
-
     const play = () => {
         setPlayAudio(true);
         playAudio = new Audio(incomingSound);
@@ -142,7 +135,7 @@ export default memo(() => {
         {
             key: "3",
             label: (
-                <Link onClick={onSignOut} >
+                <Link to="#" onClick={onSignOut}>
                     <Icon name="setting" width={16} height={16} /> Logout
                 </Link>
             ),
@@ -166,8 +159,15 @@ export default memo(() => {
             console.info('Received message: ' + message.data);
         
             switch (parsedMessage.id) {
+            case 'updateListUserResponseAdmin':
+                setUsers(parsedMessage.users);
+            break;
+            case 'listUserResponse':
+                setUsers(parsedMessage.users);
+            break;
             case 'registerResponse':
                 await registerResponse(parsedMessage);
+                ws.send(JSON.stringify({ id: 'getListUsersClient' }));
             break;
             case 'callResponse':
                 callResponse(parsedMessage);
@@ -201,7 +201,6 @@ export default memo(() => {
                         peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
-                        peer['localStream'] = stream;
                         WebRtcPeer.addPeer(peer);
 
                         peer.oniceconnectionstatechange = () => {
@@ -271,7 +270,6 @@ export default memo(() => {
                 peer = new RTCPeerConnection();
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
-                peer['localStream'] = stream;
                 WebRtcPeer.addPeer(peer);
                 peer.onnegotiationneeded = async () => negotiationNeededHandler();
                 peer.onicegatheringstatechange = () => iceGatheringStateChangeHandler();
@@ -504,7 +502,6 @@ export default memo(() => {
     }
 
     useEffect(() => {
-        fetchUserData()
         async function init() {
             await connWS();
         }
