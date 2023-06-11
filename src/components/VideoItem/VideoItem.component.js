@@ -45,7 +45,7 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam, control })
                 isRemote ? (
                     <video ref={videoRef} autoPlay={true} playsInline></video>
                 ) : (
-                    <video ref={videoRef} autoPlay muted={true} playsInline></video>
+                    <video ref={videoRef} autoPlay={true} muted={true} playsInline></video>
                 )
             ) : (
                 <div
