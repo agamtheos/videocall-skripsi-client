@@ -218,10 +218,12 @@ export default memo(() => {
                                     peer.close()
                                 break
                                 case 'failed':
-                                    peer.close()
+                                    peer.restartIce()
+                                    setConnectionState(CONNECTION_STATE.RESTARTING)
+                                    // peer.close()
                             
-                                    setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                                    setStreamableConnection(false)
+                                    // setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                                    // setStreamableConnection(false)
                                 break
                                 case 'closed':
                                     peer.close()
@@ -340,10 +342,12 @@ export default memo(() => {
                             peer.close()
                         break
                         case 'failed':
-                            peer.close()
+                            peer.restartIce()
+                            setConnectionState(CONNECTION_STATE.RESTARTING)
+                            // peer.close()
                     
-                            setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                            setStreamableConnection(false)
+                            // setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                            // setStreamableConnection(false)
                         break
                         case 'closed':
                             peer.close()
