@@ -219,19 +219,15 @@ export default memo(() => {
                                     // this.peer.restartIce()
                                     // this.closePeer()
                             
-                                    peer.restartIce()
-                                    setConnectionState(CONNECTION_STATE.RESTARTING)
-                                    // setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                                    // setStreamableConnection(false)
-                                    // peer.close()
+                                    setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                                    setStreamableConnection(false)
+                                    peer.close()
                                 break
                                 case 'failed':
-                                    peer.restartIce()
-                                    setConnectionState(CONNECTION_STATE.RESTARTING)
-                                    // peer.close()
+                                    peer.close()
                             
-                                    // setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                                    // setStreamableConnection(false)
+                                    setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                                    setStreamableConnection(false)
                                 break
                                 case 'closed':
                                     peer.close()
@@ -345,18 +341,14 @@ export default memo(() => {
                             // this.peer.restartIce()
                             // this.closePeer()
                     
-                            peer.restartIce()
-                            setConnectionState(CONNECTION_STATE.RESTARTING)
-                            // setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                            // setStreamableConnection(false)
+                            setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                            setStreamableConnection(false)
                         break
                         case 'failed':
-                            peer.restartIce()
-                            setConnectionState(CONNECTION_STATE.RESTARTING)
-                            // peer.close()
+                            peer.close()
                     
-                            // setConnectionState(CONNECTION_STATE.DISCONNECTED)
-                            // setStreamableConnection(false)
+                            setConnectionState(CONNECTION_STATE.DISCONNECTED)
+                            setStreamableConnection(false)
                         break
                         case 'closed':
                             peer.close()
