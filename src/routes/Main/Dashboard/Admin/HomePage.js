@@ -198,10 +198,14 @@ export default memo(() => {
                     onOk: async () => {
                         stop();
                         localStorage.setItem('state', 'IN_CALL');
-                        peer = new RTCPeerConnection();
+                        peer = new RTCPeerConnection(RTCConfig);
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
                         WebRtcPeer.addPeer(peer);
+
+                        peer.ontrack = (e) => {
+                            
+                        }
 
                         peer.oniceconnectionstatechange = () => {
                             console.log('iceConnectionStateChangeHandler')
@@ -267,7 +271,7 @@ export default memo(() => {
             case 'startCommunication':
                 localStorage.setItem('state', 'IN_CALL');
                 WebRtcPeer.removePeer();
-                peer = new RTCPeerConnection();
+                peer = new RTCPeerConnection(RTCConfig);
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 stream.getTracks().forEach(track => peer.addTrack(track, stream));
                 WebRtcPeer.addPeer(peer);
