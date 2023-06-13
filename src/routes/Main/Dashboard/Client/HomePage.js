@@ -13,7 +13,8 @@ import { register,
     startCommunication,
     stop as stopCall,
     rejectCall,
-    startCandidates
+    startCandidates,
+    sendMessage
 } from "../../../../classes/Connection";
 import { getConfig } from "../../../../Config";
 import { webSocketController } from "../../../../classes/WebSocket";
@@ -201,6 +202,17 @@ export default memo(() => {
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
                         WebRtcPeer.addPeer(peer);
 
+                        peer.onicecandidate = ({candidate}) => {
+                            if (candidate) {
+                                console.log('iceCandidateHandler')
+                                const msg = {
+                                    id: 'onIceCandidate',
+                                    candidate,
+                                }
+                                sendMessage(msg)
+                            }
+                        }
+
                         peer.oniceconnectionstatechange = () => {
                             console.log('iceConnectionStateChangeHandler')
                             console.log(`STATE: ${peer.iceConnectionState}`)
@@ -307,7 +319,14 @@ export default memo(() => {
                     }
                 }
                 function iceCandidateHandler({ candidate }) {
-                    console.log('iceCandidateHandler')
+                    if (candidate) {
+                        console.log('iceCandidateHandler')
+                        const msg = {
+                            id: 'onIceCandidate',
+                            candidate,
+                        }
+                        sendMessage(msg)
+                    }
                 }
                 function iceGatheringStateChangeHandler() {
                     switch (peer.iceGatheringState) {
@@ -476,12 +495,12 @@ export default memo(() => {
                 startCandidates(parsedMessage);
             break;
             case 'iceCandidate':
-                const webRtcPeer = WebRtcPeer.getPeers()
-                console.log(webRtcPeer)
-                console.log('TESSSSTTTTTTT')
-                console.log(parsedMessage.candidate)
-                await webRtcPeer.addIceCandidate(new RTCIceCandidate(parsedMessage.candidate))
-    
+                console.log('Receive Ice Candidate')
+                try {
+                    peer.addIceCandidate(new RTCIceCandidate(parsedMessage.candidate))
+                } catch (error) {
+                    console.log(error)
+                }
             break;
             case 'peerConnected':
                 navigateTo();
