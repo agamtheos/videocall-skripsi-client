@@ -44,6 +44,9 @@ const VideoCallPage = () => {
             console.log(stream)
             return [stream]
         }
+        stream.forEach((item) => {
+            item.getVideoTracks()[0].enabled = !(item.getVideoTracks()[0].enabled)
+        })
         return stream;
     };
 
@@ -67,6 +70,9 @@ const VideoCallPage = () => {
             console.log(stream)
             return [stream];
         }
+        stream.forEach((item) => {
+            item.getVideoTracks()[0].enabled = !(item.getVideoTracks()[0].enabled)
+        })
         return stream;
     };
 
