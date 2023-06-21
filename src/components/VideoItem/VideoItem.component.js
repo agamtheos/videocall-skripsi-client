@@ -28,12 +28,12 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam, control })
         }
         if (!isOnCam) {
             // console.log(videoRef.current.srcObject.getVideoTracks()[0])
-            videoRef.current.srcObject.getVideoTracks()[0].enabled = true
+            videoRef.current.srcObject.getVideoTracks()[0].enabled = false
             console.log('oncam')
         }
         if (isOnCam) {
             // console.log(videoRef.current.srcObject.getVideoTracks()[0])
-            videoRef.current.srcObject.getVideoTracks()[0].enabled = false
+            videoRef.current.srcObject.getVideoTracks()[0].enabled = true
             console.log('offcam')
         }
 	}, [isMuted, isOnCam, stream]);
