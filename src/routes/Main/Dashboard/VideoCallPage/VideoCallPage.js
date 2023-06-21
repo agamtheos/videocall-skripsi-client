@@ -53,7 +53,7 @@ const VideoCallPage = () => {
         }
 
         if (!isFirstTime) {
-            console.log('STREAMM REMOTEEEE')
+            console.log('STREAMM REMOTEEEE NOT FIRST')
             console.log(remoteStream)
             return remoteStream;
         }
@@ -86,7 +86,7 @@ const VideoCallPage = () => {
         }
         
         if (!isFirstTime) {
-            console.log('STREAMM LOCALLLL')
+            console.log('STREAMM LOCALLLL NOT FIRST')
             console.log(localStream)
             return localStream;
         }
