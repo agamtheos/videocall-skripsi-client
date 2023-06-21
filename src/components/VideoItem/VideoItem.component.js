@@ -9,6 +9,7 @@ const VideoItem = ({ isRemote, stream, image, name, isMuted, isOnCam, control })
 
     useEffect(() => {
         if (stream) {
+            console.log('INI PUNYA STREAM Remote', isRemote)
             console.log('RENEEE')
             console.log(stream)
             videoRef.current.srcObject = stream[0] ? stream[0] : stream;
