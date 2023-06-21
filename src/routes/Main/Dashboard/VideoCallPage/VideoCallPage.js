@@ -18,85 +18,57 @@ const WebRtcPeer = new WebRtcPeerClass();
 const VideoCallPage = () => {
     const [muted, toggleMuted] = useToggleState(false);
     const [onCam, toggleOnCam] = useToggleState(true);
-    const [isFirstTime, setIsFirstTime] = useState(true);
     const role = localStorage.getItem("role");
     const link = role === "admin" ? "/dashboard/admin/home" : "/dashboard/client/home";
     const me = localStorage.getItem("me");
     const they = localStorage.getItem("they");
-    let remoteStream = null;
-    let localStream = null;
 
     const findRemoteUserStream = () => {
-        if (isFirstTime) {
-            const webRtcPeer = WebRtcPeer.getPeers();
-            if (!webRtcPeer) {
-                return console.log("No remote stream for user ");
-            }
-            console.log('STREAMM REMOTEEEE')
-            let stream = null;
-            try {
-                stream = webRtcPeer.getRemoteStreams();
-                console.log('using old method')
-                console.log(stream)
-            } catch (e) {
-                console.log('using new method')
-                stream = new MediaStream();
-                webRtcPeer.getReceivers().forEach(function(receiver) {
-                    stream.addTrack(receiver.track);
-                    // stream = receiver.track;
-                })
-                console.log(stream)
-                return [stream]
-            }
-            remoteStream = stream;
-            return stream;
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No remote stream for user ");
         }
-
-        if (!isFirstTime) {
-            console.log('STREAMM REMOTEEEE NOT FIRST')
-            console.log(remoteStream)
-            return remoteStream;
+        console.log('STREAMM REMOTEEEE')
+        let stream = null;
+        try {
+            stream = webRtcPeer.getRemoteStreams();
+            console.log('using old method')
+            console.log(stream)
+        } catch (e) {
+            console.log('using new method')
+            stream = new MediaStream();
+            webRtcPeer.getReceivers().forEach(function(receiver) {
+                stream.addTrack(receiver.track);
+                // stream = receiver.track;
+            })
+            console.log(stream)
+            return [stream]
         }
-        
+        return stream;
     };
 
     const findLocalUserStream = () => {
-        if (isFirstTime) {
-            const webRtcPeer = WebRtcPeer.getPeers();
-            if (!webRtcPeer) {
-                return console.log("No local stream for user ");
-            }
-            let stream = null;
-            try {
-                stream = webRtcPeer.getLocalStreams();
-                console.log('using old method')
-                console.log(stream)
-            } catch (e) {
-                console.log('using new method')
-                stream = new MediaStream();
-                webRtcPeer.getSenders().forEach(function(sender) {
-                    console.log('add track')
-                    stream.addTrack(sender.track);
-                });
-                console.log(stream)
-                return [stream];
-            }
-            localStream = stream;
-            return stream;
+        const webRtcPeer = WebRtcPeer.getPeers();
+        if (!webRtcPeer) {
+            return console.log("No local stream for user ");
         }
-        
-        if (!isFirstTime) {
-            console.log('STREAMM LOCALLLL NOT FIRST')
-            console.log(localStream)
-            return localStream;
+        let stream = null;
+        try {
+            stream = webRtcPeer.getLocalStreams();
+            console.log('using old method')
+            console.log(stream)
+        } catch (e) {
+            console.log('using new method')
+            stream = new MediaStream();
+            webRtcPeer.getSenders().forEach(function(sender) {
+                console.log('add track')
+                stream.addTrack(sender.track);
+            });
+            console.log(stream)
+            return [stream];
         }
+        return stream;
     };
-
-    const handleToggleCam = () => {
-        console.log('Tiregerred')
-        toggleOnCam();
-        // setIsFirstTime(false);
-    }
 
     const handleToggleCamLocalStream = () => {
         const webRtcPeer = WebRtcPeer.getPeers();
@@ -107,22 +79,6 @@ const VideoCallPage = () => {
         const videoTrack = localStream.getVideoTracks()[0];
         videoTrack.enabled = !videoTrack.enabled;
     };
-
-    const handleToggleCamRemoteStream = () => {
-        const webRtcPeer = WebRtcPeer.getPeers();
-        if (!webRtcPeer) {
-            return console.log("No remote stream for user ");
-        }
-        const remoteStream = webRtcPeer.getRemoteStreams()[0];
-        const videoTrack = remoteStream.getVideoTracks()[0];
-        videoTrack.enabled = !videoTrack.enabled;
-    };
-
-    // useEffect(() => {
-    //     if (!onCam) {
-    //         handleToggleCamLocalStream();
-    //     }
-    // }, []);
 
     return (
         <Layout
