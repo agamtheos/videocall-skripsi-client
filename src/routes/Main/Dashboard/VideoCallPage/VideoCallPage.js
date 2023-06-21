@@ -196,7 +196,7 @@ const VideoCallPage = () => {
                             />
                         }
                         size="large"
-                        onClick={handleToggleCam()}
+                        onClick={toggleOnCam}
                     />
                 </Tooltip>
                 <div className="ant-lg-only">
