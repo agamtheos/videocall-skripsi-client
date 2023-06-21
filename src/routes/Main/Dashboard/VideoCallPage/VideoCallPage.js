@@ -95,7 +95,7 @@ const VideoCallPage = () => {
     const handleToggleCam = () => {
         console.log('Tiregerred')
         toggleOnCam();
-        setIsFirstTime(false);
+        // setIsFirstTime(false);
     }
 
     const handleToggleCamLocalStream = () => {
