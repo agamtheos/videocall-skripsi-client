@@ -12,7 +12,6 @@ import { register,
     incomingCall,
     stop as stopCall,
     rejectCall,
-    startCandidates,
     sendMessage,
 } from "../../../../classes/Connection";
 import { getConfig } from "../../../../Config";
