@@ -20,9 +20,12 @@ const Layout = ({ children, link, me, they, isVideoCall, rightSection }) => {
                 <Space className={clsx({ "ant-lg-only": isVideoCall })}>
                     <Link>
                         <img
-                            src="/assets/img/company-logo.svg"
+                            src="/assets/img/favicon/favicon-32x32.png"
                             alt="Company Logo"
                         />
+                        <div style={{ fontSize: 22, fontWeight: 500, paddingLeft: 10 }}>
+                            VIDEO CALL APP
+                        </div>
                     </Link>
                     {isVideoCall ? (
                         <div className="ant-lg-only">
