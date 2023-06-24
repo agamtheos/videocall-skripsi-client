@@ -32,7 +32,6 @@ const PERMISSIONS = [
 
 export const getActiveRole = () =>
 {
-	// const {role: activeRole} = store.getState().auth;
     const activeRole = localStorage.getItem('role');
 	return activeRole ? activeRole : null;
 }

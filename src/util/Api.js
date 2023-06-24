@@ -42,7 +42,6 @@ axios.interceptors.request.use(function (config) {
 	let customHeaders = {};
 
 	if (token) customHeaders['Authorization'] = `Bearer ${token}`;
-	// customHeaders['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 	customHeaders['X-Requested-With'] = 'XMLHttpRequest';
 
 	config.headers = customHeaders;

@@ -11,29 +11,17 @@ export default memo((props) => {
     return (
             <Suspense fallback={<Fallback />}>
             <Switch>
-                {/* {roleable(DASHBOARD_ADMIN) && <Route path={`${match.url}/admin`} component={lazy(() => import("./Admin"))} />}
-                {roleable(DASHBOARD_CLIENT) && <Route path={`${match.url}/client`} component={lazy(() => import("./Client"))} />} */}
+                {roleable(DASHBOARD_ADMIN) && <Route path={`${match.url}/admin`} component={lazy(() => import("./Admin"))} />}
+                {roleable(DASHBOARD_CLIENT) && <Route path={`${match.url}/client`} component={lazy(() => import("./Client"))} />}
                 <Route
-                    path={`${match.url}/admin`}
-                    component={lazy(() => import("./Admin"))}
-                />
-                <Route
-                    path={`${match.url}/client`}
-                    component={lazy(() => import("./Client"))}
+                    path={`${match.url}/room`}
+                    component={lazy(() => import("./VideoCallPage"))}
                 />
                 <Route
                     path={`${match.url}/profile`}
                     component={lazy(() => import("./Profile"))}
                 />
-                <Route
-                    path={`${match.url}/test1`}
-                    component={lazy(() => import("./RoomPage"))}
-                />
-                <Route
-                    path={`${match.url}/room`}
-                    component={lazy(() => import("./VideoCallPage"))}
-                />
-                {/* {!!defaultRoute && <Redirect to={defaultRoute}/>} */}
+                {!!defaultRoute && <Redirect to={defaultRoute}/>}
             </Switch>
             </Suspense>
     );

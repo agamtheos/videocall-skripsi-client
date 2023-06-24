@@ -76,16 +76,6 @@ const VideoCallPage = () => {
         return stream;
     };
 
-    const handleToggleCamLocalStream = () => {
-        const webRtcPeer = WebRtcPeer.getPeers();
-        if (!webRtcPeer) {
-            return console.log("No local stream for user ");
-        }
-        const localStream = webRtcPeer.getLocalStreams()[0];
-        const videoTrack = localStream.getVideoTracks()[0];
-        videoTrack.enabled = !videoTrack.enabled;
-    };
-
     return (
         <Layout
             link={link}
@@ -93,7 +83,7 @@ const VideoCallPage = () => {
             they={they}
             isVideoCall
             rightSection={
-                <Link to={link}>
+                <Link to='#'>
                     <Button
                         icon={<Icon name="group" width={32} height={32} />}
                         ghost
@@ -117,7 +107,6 @@ const VideoCallPage = () => {
                         name={they}
                         isMuted={false}
                         isOnCam={true}
-                        // control={isControlled}
                     />
                 </Col>
                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -128,7 +117,6 @@ const VideoCallPage = () => {
                         name={me}
                         isMuted={muted}
                         isOnCam={onCam}
-                        // control={}
                     />
                 </Col>
             </Row>
@@ -141,14 +129,12 @@ const VideoCallPage = () => {
             >
                 <Tooltip title={muted ? "Unmute Voice" : "Mute Voice"}>
                     <Button
-                        // className={styled.active}
                         icon={muted ? <AudioMutedOutlined /> : <AudioOutlined />}
-                        // icon={<Icon name={muted ? "mute" : "unmute"} width={32} height={32}/>}
                         size="large"
                         onClick={toggleMuted}
                     />
                 </Tooltip>
-                <Tooltip title={onCam ? "Turn Off Camera" : "Turn On Camera"}>
+                {/* <Tooltip title={onCam ? "Turn Off Camera" : "Turn On Camera"}>
                     <Button
                         icon={
                             <Icon
@@ -160,7 +146,7 @@ const VideoCallPage = () => {
                         size="large"
                         onClick={toggleOnCam}
                     />
-                </Tooltip>
+                </Tooltip> */}
                 <div className="ant-lg-only">
                     <HangUp
                         link={link}

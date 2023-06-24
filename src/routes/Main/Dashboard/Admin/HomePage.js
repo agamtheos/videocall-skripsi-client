@@ -10,7 +10,6 @@ import { register,
     registerResponse, 
     callResponse,
     incomingCall,
-    startCommunication,
     stop as stopCall,
     rejectCall,
     startCandidates,
@@ -19,12 +18,11 @@ import { register,
 import { getConfig } from "../../../../Config";
 import { webSocketController } from "../../../../classes/WebSocket";
 import { userSignOut } from "../../../../appRedux/actions/Auth";
-import { getAllClientsOnline } from "../../../../appRedux/actions/Client";
 import { Layout } from "../../../../components/Layout";
 import { Users } from "../../../../components/Users";
 import Icon from "../../../../components/Icon";
 import incomingSound from '../../../../assets/sounds/incoming_call.mp3';
-import { RTCConfig, CONNECTION_STATE } from "../../../../constants/ActionTypes";
+import { CONNECTION_STATE } from "../../../../constants/ActionTypes";
 
 const WebRtcPeerClass = require('../../../../classes/WebRtcPeer');
 const WebRtcPeer = new WebRtcPeerClass();
@@ -75,14 +73,11 @@ export default memo(() => {
     let [polite, setPolite] = useState(true);
     let [makingOffer, setMakingOffer] = useState(false);
     let [offerTimeout, setOfferTimeout] = useState(false);
-    let [offerComplete, setOfferComplete] = useState(false);
     let [makingAnswer, setMakingAnswer] = useState(false);
     let [connectionState, setConnectionState] = useState(CONNECTION_STATE.CLOSED);
     let [streamableConnection, setStreamableConnection] = useState(false);
     let [lastSdpOffer, setLastSdpOffer] = useState(null);
     let [offerTimer, setOfferTimer] = useState(null);
-    const [iceRestartsLimit, setIceRestartsLimit] = useState(DEFAULT_ICE_RESTARTS_LIMIT);
-    let [iceRestartsCount, setIceRestartsCount] = useState(0);
 
     const IceGatheringTimeout = DEFAULT_ICE_GATHERING_TIMEOUT
     const OfferTimeoutValue = DEFAULT_OFFER_TIMEOUT
@@ -224,9 +219,6 @@ export default memo(() => {
                                     setStreamableConnection(false)
                                 break
                                 case 'disconnected':
-                                    // this.peer.restartIce()
-                                    // this.closePeer()
-                            
                                     setConnectionState(CONNECTION_STATE.DISCONNECTED)
                                     setStreamableConnection(false)
                                     peer.close()
@@ -263,7 +255,6 @@ export default memo(() => {
                             message: 'accepted'
                         }
                         ws.send(JSON.stringify(response));
-                        // stop();
                         setTimeout(() => {
                             incomingCall(parsedMessage);
                         }, 1000);
@@ -287,10 +278,6 @@ export default memo(() => {
                 peer.onicegatheringstatechange = () => iceGatheringStateChangeHandler();
                 peer.oniceconnectionstatechange = () => iceConnectionStateChangeHandler();
                 peer.onicecandidate = ({candidate}) => iceCandidateHandler({candidate});
-                // peer.addEventListener('negotiationneeded', negotiationNeededHandler);
-                // peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
-                // peer.addEventListener('iceconnectionstatechange', iceConnectionStateChangeHandler)
-                // peer.addEventListener('icecandidate', iceCandidateHandler)
 
                 async function negotiationNeededHandler() {
                     try {
@@ -352,10 +339,7 @@ export default memo(() => {
                             setConnectionState(CONNECTION_STATE.NEGOTIATING)
                             setStreamableConnection(false)
                         break
-                        case 'disconnected':
-                            // this.peer.restartIce()
-                            // this.closePeer()
-                    
+                        case 'disconnected':                    
                             setConnectionState(CONNECTION_STATE.DISCONNECTED)
                             setStreamableConnection(false)
                         break
@@ -409,8 +393,6 @@ export default memo(() => {
             
                     peer.onicegatheringstatechange = iceGatheringStateChangeHandler
                     peer.onicecandidate = ({candidate}) => iceCandidateHandler({candidate})
-                    // peer.addEventListener('icegatheringstatechange', iceGatheringStateChangeHandler)
-                    // peer.addEventListener('icecandidate', iceCandidateHandler)
             
                     setTimeout(() => {
                         if (timeoutObserver.resolved) {
@@ -500,9 +482,6 @@ export default memo(() => {
                 localStorage.removeItem('they')
                 window.location.replace(link);
                 break;
-            case 'startCandidates':
-                startCandidates(parsedMessage);
-            break;
             case 'iceCandidate':
                 console.log('Receive Ice Candidate')
                 try {
@@ -510,9 +489,6 @@ export default memo(() => {
                 } catch (error) {
                     console.log(error)
                 }
-            break;
-            case 'peerConnected':
-                navigateTo();
             break;
             default:
                 console.error('Unrecognized message', parsedMessage);
