@@ -9,7 +9,7 @@ const RestrictedRoute = ({component: Component, location, isValid, ...rest}) =>
         render={(props) =>
         isValid ? <Component {...props} />
         : <Redirect to={{
-            pathname: '/auth/login',
+            pathname: '/auth/register',
             state: {from: location}
             }}/>
     }/>;

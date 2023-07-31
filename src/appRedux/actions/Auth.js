@@ -14,21 +14,23 @@ export const userPurgeAuth = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('username');
+        localStorage.removeItem('alias');
+        localStorage.removeItem('state');
     };
 };
 
-export const userSignIn = (username, password) => {
+export const userSignIn = (username, role) => {
     return (dispatch) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await Api.post(getCollection('AUTH_LOGIN'), {username, password});
+                const data = await Api.post(getCollection('AUTH_LOGIN'), {username, role});
                 await dispatch({type: AUTH_TOKEN, payload: data.data.data.token});
 				await dispatch({type: AUTH_ROLE, payload: data.data.data.role});
                 await dispatch({type: AUTH_IS_VALID, payload: true});
-                dispatch(userGetProfile());
+                // dispatch(userGetProfile());
                 localStorage.setItem('token', data.data.data.token);
                 localStorage.setItem('role', data.data.data.role);
-                localStorage.setItem('username', username);
+                // localStorage.setItem('username', username);
                 resolve(data.data.data.token);
             } catch (error) {
                 reject(error);

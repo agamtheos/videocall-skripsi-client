@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Button, Modal } from "antd";
 
 import Icon from "../Icon";
@@ -7,6 +7,7 @@ import styled from "./Users.module.css";
 const Connection = require('../../classes/Connection');
 
 const Users = ({ data }) => {
+    
     const callerName = localStorage.getItem('username')
     const onClickCall = async(peerName) => {
         const peer = peerName;
@@ -42,6 +43,16 @@ const Users = ({ data }) => {
                         </span>
                     )}
                     <p>{user.name}</p>
+                    {user.state ? (
+                        user.state === 'registered' ? (
+                            <p style={{ color: `#13c2c2` }}>Online</p>
+                        ) : (
+                            <p style={{ color: `#f5222d` }}>Dalam Panggilan</p>
+                        )
+                    ) : (
+                        <p style={{ color: `#f5222d` }}>Dalam Panggilan</p>
+                    )}
+                    
                     <div className={styled.overlay}>
                         <Button
                             className={styled.callBtn}

@@ -68,6 +68,7 @@ export const register = (name) => {
     var message = {
         id : 'register',
         name : name,
+        alias: localStorage.getItem('alias'),
         state: 'registered',
         role: localStorage.getItem('role')
     };

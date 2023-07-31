@@ -15,10 +15,10 @@ export default memo(({match}) => {
     return (
         <Suspense fallback={<Fallback/>}>
             <Switch>
-                <Route path={`${match.url}/login`} component={lazy(() => import('./Login'))}/>
-                <Route path={`${match.url}/admin/register`} component={lazy(() => import('./Register'))}/>
-                <Route path={`${match.url}/forgot-password`} component={lazy(() => import('./ForgotPassword'))}/>
-                <Route path={`${match.url}/reset-password`} component={lazy(() => import('./ResetPassword'))}/>
+                {/* <Route path={`${match.url}/login`} component={lazy(() => import('./Login'))}/> */}
+                <Route path={`${match.url}/register`} component={lazy(() => import('./RegisterClient'))}/>
+                {/* <Route path={`${match.url}/forgot-password`} component={lazy(() => import('./ForgotPassword'))}/> */}
+                {/* <Route path={`${match.url}/reset-password`} component={lazy(() => import('./ResetPassword'))}/> */}
             </Switch>
         </Suspense>
     )

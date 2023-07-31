@@ -12,7 +12,6 @@ import { register,
     incomingCall,
     stop as stopCall,
     rejectCall,
-    startCandidates,
     sendMessage
 } from "../../../../classes/Connection";
 import { getConfig } from "../../../../Config";
@@ -106,7 +105,7 @@ export default memo(() => {
             cancelText: 'Batal',
             onOk: () => {
                 dispatch(userSignOut(username));
-                window.location.href = '/auth/login';
+                window.location.href = '/auth/register';
             },
             onCancel: () => {}
         });
@@ -192,6 +191,8 @@ export default memo(() => {
                     onOk: async () => {
                         stop();
                         localStorage.setItem('state', 'IN_CALL');
+                        ws.send(JSON.stringify({ id: 'getListStateClient' }));
+
                         peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));

@@ -66,7 +66,7 @@ export default memo(() => {
     const history = useHistory();
     const [users, setUsers] = useState([])
     const username = localStorage.getItem('username');
-    const role = localStorage.getItem('role');
+    const role = localStorage.getItem('role')
     const WEB_SOCKET_URL = getConfig('WEB_SOCKET_URL');
     let [playAudio, setPlayAudio] = useState(false);
     let [polite, setPolite] = useState(true);
@@ -104,7 +104,7 @@ export default memo(() => {
             cancelText: 'Batal',
             onOk: () => {
                 dispatch(userSignOut(username));
-                window.location.href = '/auth/login';
+                window.location.href = '/auth/register';
             },
             onCancel: () => {}
         });
@@ -158,6 +158,7 @@ export default memo(() => {
                 setUsers(parsedMessage.users);
             break;
             case 'listUserResponse':
+                console.log(parsedMessage.users)
                 setUsers(parsedMessage.users);
             break;
             case 'registerResponse':
@@ -193,6 +194,8 @@ export default memo(() => {
                     onOk: async () => {
                         stop();
                         localStorage.setItem('state', 'IN_CALL');
+                        ws.send(JSON.stringify({ id: 'getListStateAdmin' }));
+
                         peer = new RTCPeerConnection();
                         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                         stream.getTracks().forEach(track => peer.addTrack(track, stream));
