@@ -17,10 +17,10 @@ export default memo((props) => {
                     path={`${match.url}/room`}
                     component={lazy(() => import("./VideoCallPage"))}
                 />
-                <Route
+                {/* <Route
                     path={`${match.url}/profile`}
                     component={lazy(() => import("./Profile"))}
-                />
+                /> */}
                 {!!defaultRoute && <Redirect to={defaultRoute}/>}
             </Switch>
             </Suspense>

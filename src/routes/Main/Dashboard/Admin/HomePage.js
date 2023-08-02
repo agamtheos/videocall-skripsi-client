@@ -111,24 +111,24 @@ export default memo(() => {
 	};
 
     const items = [
+        // {
+        //     key: "1",
+        //     label: (
+        //         <Link to="/dashboard/profile/change-password">
+        //             <Icon name="edit" width={16} height={16} /> Change Password
+        //         </Link>
+        //     ),
+        // },
+        // {
+        //     key: "2",
+        //     label: (
+        //         <Link to="/dashboard/admin/manage-user">
+        //             <Icon name="group" width={16} height={16} /> Manajemen User
+        //         </Link>
+        //     ),
+        // },
         {
             key: "1",
-            label: (
-                <Link to="/dashboard/profile/change-password">
-                    <Icon name="edit" width={16} height={16} /> Change Password
-                </Link>
-            ),
-        },
-        {
-            key: "2",
-            label: (
-                <Link to="/dashboard/admin/manage-user">
-                    <Icon name="group" width={16} height={16} /> Manajemen User
-                </Link>
-            ),
-        },
-        {
-            key: "3",
             label: (
                 <Link to="#" onClick={onSignOut}>
                     <Icon name="setting" width={16} height={16} /> Logout
