@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# installing yarn
-echo "installing yarn...  please wait..."
-npm install -g yarn
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # creating .env file on frontend
@@ -26,15 +22,12 @@ else
         yarn -v
         echo "yarn is installed, skipping..."
     else
+        # installing yarn
         echo "installing yarn...  please wait..."
-        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.19
-        echo "==> Adding Yarn to environment path"
-        # Yarn configurations
-        export PATH="$HOME/.yarn/bin:$PATH"
-        yarn config set prefix ~/.yarn -g
+        npm install -g yarn
     fi
 
-    echo "installing dependencies..."
+    echo "installing dependencies for frontend... please wait... "
     yarn install
 fi
 
