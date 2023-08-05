@@ -33,7 +33,10 @@ fi
 
 # creating .env file on frontend
 
-ip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+if [[ "$OSTYPE" == "cygwin" ]]; then
+    ip=${LOCAL_IP:-`ipconfig.exe | grep -im1 'IPv4 Address' | cut -d ':' -f2`}
+else
+    ip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -57,7 +60,7 @@ else
         export PATH="$HOME/.yarn/bin:$PATH"
         yarn config set prefix ~/.yarn -g
     fi
-    
+
     echo "installing dependencies..."
     yarn install
 fi
@@ -69,4 +72,5 @@ else
     npm run build
 fi
 
+echo "Starting app..."
 npm run prod
