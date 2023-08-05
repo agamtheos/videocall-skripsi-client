@@ -9,6 +9,8 @@ if [[ "$OSTYPE" == "cygwin" ]]; then
 else
     ip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 
+fi
+
 cd $SCRIPT_DIR
 
 echo -e "REACT_APP_BASE_API=https://$ip:3030/api/\nCOOKIE_TOKEN_KEY=5jsadas981h2e21knda\nREACT_APP_WEB_SOCKET_URL=wss://$ip:3030/one2one" > .env
@@ -37,3 +39,4 @@ else
     echo "Building app..."
     npm run build
 fi
+
