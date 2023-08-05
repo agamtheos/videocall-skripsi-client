@@ -10,6 +10,8 @@ cd $SCRIPT_DIR
 
 echo -e "REACT_APP_BASE_API=https://$ip:3030/api/\nCOOKIE_TOKEN_KEY=5jsadas981h2e21knda\nREACT_APP_WEB_SOCKET_URL=wss://$ip:3030/one2one" > .env
 
+sed -i '/^$/d;s/[[:blank:]]//g' .env
+
 # installing dependencies
 if [ -d "node_modules" ]; then
     echo "node_modules already exists... skipping..."
