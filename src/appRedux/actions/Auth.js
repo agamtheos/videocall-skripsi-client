@@ -33,6 +33,7 @@ export const userSignIn = (username, role) => {
                 // localStorage.setItem('username', username);
                 resolve(data.data.data.token);
             } catch (error) {
+                console.log(error)
                 reject(error);
             }
         });
