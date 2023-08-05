@@ -45,6 +45,19 @@ echo -e "REACT_APP_BASE_API=https://$ip:3030/api/\nCOOKIE_TOKEN_KEY=5jsadas981h2
 if [ -d "node_modules" ]; then
     echo "node_modules already exists... skipping..."
 else
+    # installing yarn if not installed
+    if type yarn > /dev/null 2>&1 && which yarn > /dev/null 2>&1 ;then
+        yarn -v
+        echo "yarn is installed, skipping..."
+    else
+        echo "installing yarn...  please wait..."
+        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.19
+        echo "==> Adding Yarn to environment path"
+        # Yarn configurations
+        export PATH="$HOME/.yarn/bin:$PATH"
+        yarn config set prefix ~/.yarn -g
+    fi
+    
     echo "installing dependencies..."
     yarn install
 fi
