@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 if type node > /dev/null 2>&1 && which node > /dev/null 2>&1 ;then
     node -v
     echo "nodeJs is installed, skipping..."
 else
     if [[ "$OSTYPE" == "cygwin" ]]; then
-        curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-        sudo apt-get install -y nodejs
-
-        echo "NodeJs is installed"
-        echo node -v
+        exec $SCRIPT_DIR/setup/node-v16.16.0-x64.msi
     else 
 
     echo "installing nodeJs...  please wait..."
@@ -45,8 +43,6 @@ if [[ "$OSTYPE" == "cygwin" ]]; then
     ip=${LOCAL_IP:-`ipconfig.exe | grep -im1 'IPv4 Address' | cut -d ':' -f2`}
 else
     ip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
-
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 cd $SCRIPT_DIR
 

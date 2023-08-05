@@ -44,6 +44,3 @@ else
     echo "Building app..."
     npm run build
 fi
-
-echo "Starting app..."
-npm run prod
